@@ -12,9 +12,9 @@ export const metadata: Metadata = {
   description: "Software Engineer specializing in AI, ML, and MLOps",
     generator: 'v0.dev',
   icons: {
-    icon: "/icon.png",
-    shortcut: "/icon.png",
-    apple: "/icon.png",
+    icon: "/Portfolio/icon.png",
+    shortcut: "/Portfolio/icon.png",
+    apple: "/Portfolio/icon.png",
   },
 }
 
