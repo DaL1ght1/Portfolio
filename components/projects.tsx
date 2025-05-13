@@ -41,7 +41,7 @@ const projects = [
     github: "https://github.com/DaL1ght1/PCD-2025-40d",
     demo: null,
     period: "Feb 2025 - May 2025",
-    image: "/FIDS.jpg?height=400&width=600",
+    image: "/Portfolio/FIDS.jpg?height=400&width=600",
     category: "AI/ML",
   },
   {
@@ -65,7 +65,7 @@ const projects = [
     github: "https://github.com/DaL1ght1/ECM",
     demo: null,
     period: "June 2024 - Aug 2024",
-    image: "/ECM.jpg?height=400&width=600",
+    image: "/Portfolio/ECM.jpg?height=400&width=600",
     category: "Web Development",
   },
     {
@@ -78,7 +78,7 @@ const projects = [
     github: "https://github.com/DaL1ght1/Rouli",
     demo: null,
     period: "Jan 2024 - Mar 2024",
-    image: "/Rooli.jpg?height=400&width=600",
+    image: "/Portfolio/Rooli.jpg?height=400&width=600",
     category: "Web Development",
   },
   {
@@ -92,7 +92,7 @@ const projects = [
     github: "https://github.com/DaL1ght1/CompilerProject",
     demo: null,
     period: "Sep 2023 - Dec 2023",
-    image: "/Compiler.jpg?height=400&width=600",
+    image: "/Portfolio/Compiler.jpg?height=400&width=600",
     category: "Software Development",
   },
 
@@ -106,7 +106,7 @@ const projects = [
     github: "https://github.com/DaL1ght1/Navbar-footer",
     demo: null,
     period: "Oct 2023 - Nov 2023",
-    image: "/Nav.jpg?height=400&width=600",
+    image: "/Portfolio/Nav.jpg?height=400&width=600",
     category: "Web Development",
   },
   
@@ -121,7 +121,7 @@ const projects = [
     github: "https://github.com/DaL1ght1/finance",
     demo: null,
     period: "Nov 2023 - Jan 2024",
-    image: "/Finance.jpg?height=400&width=600",
+    image: "/Portfolio/Finance.jpg?height=400&width=600",
     category: "Web Development",
   },
 
