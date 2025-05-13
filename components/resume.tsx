@@ -41,7 +41,7 @@ export default function Resume() {
             </div>
             <div>
               <h4 className="font-medium mb-2">Other Skills</h4>
-              <p>Problem Solving, AI/ML, MLOps</p>
+              <p>Problem Solving, Ai, Xai, Docker</p>
             </div>
           </div>
         </div>
