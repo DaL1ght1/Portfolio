@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -15,26 +14,49 @@ export default function Contact() {
     email: "",
     message: "",
   })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submissionMessage, setSubmissionMessage] = useState("")
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // This would typically send the form data to a server
-    console.log("Form submitted:", formData)
-    alert("Thank you for your message! I'll get back to you soon.")
-    setFormData({ name: "", email: "", message: "" })
+    setIsSubmitting(true)
+    setSubmissionMessage("")
+
+    try {
+      const response = await fetch("https://formspree.io/f/mwpojrqj", { 
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json", 
+        },
+        body: JSON.stringify(formData),
+      })
+
+      if (response.ok) {
+        setSubmissionMessage("Thank you for your message! I'll get back to you soon.")
+        setFormData({ name: "", email: "", message: "" })
+      } else {
+        setSubmissionMessage("Oops! Something went wrong. Please try again later or email me directly.")
+      }
+    } catch (error) {
+      console.error("Form submission error:", error)
+      setSubmissionMessage("There was a problem submitting your form. Please check your connection or email me directly.")
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
-    <section id="contact" className="section-container bg-muted/50">
-      <h2 className="section-title">Contact Me</h2>
-      <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+    <section id="contact" className="section-container bg-muted/50 py-16 md:py-24">
+      <h2 className="section-title text-3xl md:text-4xl font-bold text-center mb-12">Contact Me</h2>
+      <div className="grid md:grid-cols-2 gap-8 md:gap-12 max-w-5xl mx-auto px-4">
         <div>
-          <h3 className="text-xl font-semibold mb-4">Get In Touch</h3>
+          <h3 className="text-xl lg:text-2xl font-semibold mb-4">Get In Touch</h3>
           <p className="mb-6 text-muted-foreground">
             Feel free to reach out if you're looking for a software engineer, have a question, or just want to connect.
           </p>
@@ -107,7 +129,7 @@ export default function Contact() {
         </div>
 
         <div>
-          <h3 className="text-xl font-semibold mb-4">Send Me a Message</h3>
+          <h3 className="text-xl lg:text-2xl font-semibold mb-4">Send Me a Message</h3>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label htmlFor="name" className="block text-sm font-medium mb-1">
@@ -115,11 +137,12 @@ export default function Contact() {
               </label>
               <Input
                 id="name"
-                name="name"
+                name="name" 
                 value={formData.name}
                 onChange={handleChange}
                 placeholder="Your name"
                 required
+                disabled={isSubmitting}
               />
             </div>
             <div>
@@ -128,12 +151,13 @@ export default function Contact() {
               </label>
               <Input
                 id="email"
-                name="email"
+                name="email" 
                 type="email"
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="Your email"
                 required
+                disabled={isSubmitting}
               />
             </div>
             <div>
@@ -142,17 +166,23 @@ export default function Contact() {
               </label>
               <Textarea
                 id="message"
-                name="message"
+                name="message" 
                 value={formData.message}
                 onChange={handleChange}
                 placeholder="Your message"
                 rows={5}
                 required
+                disabled={isSubmitting}
               />
             </div>
-            <Button type="submit" className="w-full">
-              Send Message
+            <Button type="submit" className="w-full" disabled={isSubmitting}>
+              {isSubmitting ? "Sending..." : "Send Message"}
             </Button>
+            {submissionMessage && (
+              <p className={`mt-2 text-sm ${submissionMessage.includes("Oops") || submissionMessage.includes("problem") ? "text-red-500" : "text-green-500"}`}>
+                {submissionMessage}
+              </p>
+            )}
           </form>
         </div>
       </div>
