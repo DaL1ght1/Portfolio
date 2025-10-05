@@ -3,155 +3,171 @@
 import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { ExternalLink, Github, ChevronDown, ChevronUp, Code, ArrowUpRight } from "lucide-react"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { ExternalLink, Github, X, Calendar, Building2 } from "lucide-react"
 import { cn } from "@/lib/utils"
 
-// This would typically come from an API or data file
 const projects = [
   {
     id: 1,
-    title: "Falsified Image Detection for Judicial Procedures",
-    description:
-      "An AI-based solution using Transfer Learning to detect falsified images, implementing multiple deep learning models achieving high accuracy in distinguishing authentic vs. forged images.",
-    longDescription:
-      "Developed an AI-based solution using Transfer Learning to detect falsified images. The system implements multiple deep learning models (e.g., MobileNetV3, EfficientNetV2) achieving high accuracy in distinguishing authentic vs. forged images. The project includes a comprehensive backend built with Spring Boot and a user-friendly frontend developed with Angular. The system uses Kafka for event streaming and Docker for containerization, making it scalable and robust for judicial procedures.",
-    technologies: [
-      "Python",
-      "PyTorch",
-      "TensorFlow",
-      "Albumentations",
-      "Optuna",
-      "timm",
-      "SHAP",
-      "LIME",
-      "Grad-CAM",
-      "Spring Boot",
-      "Angular",
-      "PostgreSQL",
-      "Kafka",
-      "Docker",
-      "ZooKeeper",
-      "ZipKin",
-      "MongoDB",
-      "JWT Authentication",
-    ],
-    github: "https://github.com/DaL1ght1/PCD-2025-40d",
+    title: "Fleet Management System",
+    company: "Omnilink",
+    description: "Scalable fleet management solution with microservices architecture",
+    longDescription: "Built a comprehensive fleet management system using modern cloud-native technologies. Implemented containerized services with Docker, deployed on Kubernetes cluster, and established robust CI/CD pipelines using GitHub Actions. The system features event-driven architecture with Kafka for real-time messaging and Keycloak for enterprise-grade SSO authentication.",
+    technologies: ["Docker", "Kubernetes", "GitHub Actions", "Kafka", "Keycloak", "GraphQL", "Apollo Federation", "Spring Boot", "Angular", "Microservices"],
+    github: "https://github.com/DaL1ght1/Fleet-Management",
     demo: null,
-    period: "Feb 2025 - May 2025",
-    image: "/Portfolio/FIDS.jpg?height=400&width=600",
-    category: "AI/ML",
+    period: "Jul 2025 - Sep 2025",
+    image: "/placeholder.jpg",
+    category: "DevOps & Cloud",
+    featured: true,
   },
   {
     id: 2,
-    title: "Enterprise Content Management (ECM)",
-    description:
-      "Developed an Enterprise Content Management web application during internship at BFI Group, implementing document management, content search, and user permissions.",
-    longDescription:
-      "Developed a comprehensive Enterprise Content Management (ECM) web application during my internship at BFI Group. The system features robust document management capabilities, advanced content search and indexing, and granular user permission management. Built with Spring Boot for the backend, Angular for the frontend, and PostgreSQL for data storage, the application provides businesses with a secure and efficient way to manage their digital content and workflows.",
-    technologies: [
-      "Spring Boot",
-      "Angular",
-      "TypeScript",
-      "HTML",
-      "SCSS",
-      "PostgreSQL",
-      "RESTful API",
-      "JWT Authentication",
-      "Docker",
-    ],
-    github: "https://github.com/DaL1ght1/ECM",
+    title: "Falsified Image Detection",
+    company: "Laval University",
+    description: "AI-powered image forensics with explainable AI techniques",
+    longDescription: "Developed an advanced image forensics system using deep learning models (MobileNetV3) optimized with Optuna for hyperparameter tuning. Implemented explainable AI techniques including SHAP, LIME, and Grad-CAM to provide interpretable results. The system uses Albumentations for data augmentation and is deployed as a full-stack web application with Spring Boot backend and Angular frontend, containerized with Docker.",
+    technologies: ["Python", "PyTorch", "MobileNetV3", "Optuna", "Albumentations", "SHAP", "LIME", "Grad-CAM", "Spring Boot", "Angular", "Docker"],
+    github: "https://github.com/DaL1ght1/PCD-2025-40",
     demo: null,
-    period: "June 2024 - Aug 2024",
-    image: "/Portfolio/ECM.jpg?height=400&width=600",
-    category: "Web Development",
+    period: "Feb 2025 - May 2025",
+    image: "/FIDS.jpg",
+    category: "AI/ML",
+    featured: true,
   },
-    {
+  {
     id: 3,
-    title: "Rouli - Your Ultimate Mobility Solution",
-    description: "A web application for seamless vehicle rentals including cars, motorbikes, and scooters.",
-    longDescription:
-      "Welcome to Rouli, the premier platform for seamless vehicle rentals! Whether you're looking for a car, a motorbike, or a scooter, we have a diverse fleet to meet your needs. This project includes a user-friendly web application that allows customers to rent vehicles effortlessly. Features include user registration and authentication, vehicle browsing and filtering, booking management, and an admin dashboard for inventory control.",
-    technologies: ["PHP", "CSS", "JavaScript", "HTML", "MySQL", "User Authentication", "Responsive Design"],
-    github: "https://github.com/DaL1ght1/Rouli",
+    title: "Oracle Analytics Dashboards",
+    company: "BFI Group",
+    description: "Business intelligence dashboards for financial supervision",
+    longDescription: "Delivered comprehensive Oracle Analytics Server dashboards for a central bank client, focusing on financial supervision and regulatory compliance. Created bilingual (French/English) user and technical documentation. Validated complex financial formulas and ensured data confidentiality while maintaining usability of BI reports for stakeholders.",
+    technologies: ["Oracle Analytics Server", "BI", "Data Visualization", "Financial Analysis", "Documentation"],
+    github: null,
     demo: null,
-    period: "Jan 2024 - Mar 2024",
-    image: "/Portfolio/Rooli.jpg?height=400&width=600",
-    category: "Web Development",
+    period: "Jul 2025 - Aug 2025",
+    image: "/placeholder.jpg",
+    category: "Business Intelligence",
+    featured: true,
   },
   {
     id: 4,
+    title: "Enterprise Content Management",
+    company: "BFI Group",
+    description: "Full-featured ECM system with advanced search capabilities",
+    longDescription: "Implemented a comprehensive Enterprise Content Management web application using Spring Boot and Angular. Features include advanced document search and indexing powered by Elasticsearch, role-based access control for security, and PostgreSQL for reliable data storage. The system enables organizations to efficiently manage, search, and secure their digital content.",
+    technologies: ["Spring Boot", "Angular", "Elasticsearch", "PostgreSQL", "RESTful API", "JWT", "Role-Based Access Control"],
+    github: "https://github.com/DaL1ght1/ECM",
+    demo: null,
+    period: "Jun 2024 - Aug 2024",
+    image: "/ECM.jpg",
+    category: "Web Development",
+    featured: true,
+  },
+  {
+    id: 5,
+    title: "Rouli - Vehicle Rental Platform",
+    description: "Full-stack vehicle rental web application",
+    longDescription: "Developed a complete vehicle rental platform allowing users to browse, book, and manage rentals for cars, motorbikes, and scooters. Features include user authentication, vehicle inventory management, booking system, and admin dashboard. Built with a focus on user experience and responsive design.",
+    technologies: ["PHP", "JavaScript", "HTML", "CSS", "MySQL", "User Authentication", "Responsive Design"],
+    github: "https://github.com/DaL1ght1/Rouli",
+    demo: null,
+    period: "Jan 2024 - Mar 2024",
+    image: "/Rooli.jpg",
+    category: "Web Development",
+    featured: false,
+  },
+  {
+    id: 6,
+    title: "Discord Profanity Banner",
+    description: "Moderation bot for Tunisian Discord communities",
+    longDescription: "Created a Discord moderation bot specifically designed to filter profanity and inappropriate content in Tunisian dialect. The bot uses natural language processing to detect and moderate content in real-time, helping maintain healthy community environments. Features automated warnings, user reporting, and customizable filter settings.",
+    technologies: ["Python", "Discord.py", "NLP", "Bot Development", "API Integration", "Real-time Processing"],
+    github: "https://github.com/DaL1ght1/BadTN",
+    demo: null,
+    period: "Dec 2023 - Feb 2024",
+    image: "/placeholder.jpg",
+    category: "Tools & Utilities",
+    featured: false,
+  },
+  {
+    id: 7,
     title: "Compiler Project",
-    description:
-      "A compiler implementation for a simple programming language, including lexical analysis, parsing, and code generation.",
-    longDescription:
-      "Developed a compiler for a simple programming language as part of a university project. The compiler includes all major components: lexical analyzer (scanner), syntax analyzer (parser), semantic analyzer, intermediate code generator, and code optimizer. The implementation demonstrates understanding of formal language theory, parsing techniques, symbol tables, type checking, and code generation strategies. The compiler successfully translates source code into executable machine code or bytecode.",
-    technologies: ["C++", "Compiler Design", "Parsing Algorithms", "Code Generation"],
+    description: "Educational compiler with lexical and syntax analysis",
+    longDescription: "Developed a compiler for a simple programming language as part of academic coursework. Implemented all major compiler phases including lexical analysis, syntax analysis, semantic analysis, and code generation. The project demonstrates understanding of formal language theory, parsing algorithms, and compiler design principles.",
+    technologies: ["C", "Compiler Design", "Lexical Analysis", "Parsing", "Code Generation", "Data Structures"],
     github: "https://github.com/DaL1ght1/CompilerProject",
     demo: null,
     period: "Sep 2023 - Dec 2023",
-    image: "/Portfolio/Compiler.jpg?height=400&width=600",
+    image: "/Compiler.jpg",
     category: "Software Development",
+    featured: false,
   },
-
   {
-    id: 5,
-    title: "Responsive Navbar and Footer Components",
-    description: "Reusable and customizable navbar and footer components for web applications with responsive design.",
-    longDescription:
-      "Created highly reusable and customizable navbar and footer components for web applications. These components feature responsive design that adapts seamlessly to different screen sizes, from mobile to desktop. The navbar includes features such as dropdown menus, mobile hamburger menu, and smooth transitions. The footer component includes sections for links, social media, contact information, and newsletter signup. Both components are built with accessibility in mind and follow modern design principles.",
-    technologies: ["HTML", "CSS", "JavaScript", "React", "Responsive Design", "Accessibility", "UI/UX"],
-    github: "https://github.com/DaL1ght1/Navbar-footer",
+    id: 8,
+    title: "Directory Content Collector",
+    description: "Python utility for directory analysis and organization",
+    longDescription: "Built a powerful Python utility tool for collecting, analyzing, and organizing directory contents. Features include recursive directory traversal, advanced filtering options, file type categorization, and multiple export formats. Particularly useful for developers analyzing project structures and generating documentation.",
+    technologies: ["Python", "File System Operations", "CLI", "Data Processing", "Automation"],
+    github: "https://github.com/DaL1ght1/Directory-Content-Collector",
     demo: null,
-    period: "Oct 2023 - Nov 2023",
-    image: "/Portfolio/Nav.jpg?height=400&width=600",
-    category: "Web Development",
+    period: "Aug 2023 - Sep 2023",
+    image: "/placeholder.jpg",
+    category: "Tools & Utilities",
+    featured: false,
   },
-  
-    {
-    id: 6,
-    title: "Finance Application",
-    description:
-      "A financial management application with features for tracking expenses, managing investments, and financial planning.",
-    longDescription:
-      "Developed a comprehensive financial management application that helps users track expenses, manage investments, and plan their financial future. The application includes features such as expense categorization, budget planning, investment portfolio tracking, and financial goal setting. The system provides insightful visualizations and reports to help users understand their financial health and make informed decisions.",
-    technologies: ["HTML", "CSS"],
-    github: "https://github.com/DaL1ght1/finance",
+  {
+    id: 9,
+    title: "E-Cars Rental System",
+    description: "Command-line car rental management application",
+    longDescription: "Developed a CLI-based car rental management system in C. The application handles vehicle inventory, customer information, booking management, and rental history. Features include availability checking, pricing calculation, customer registration, and booking confirmation. Demonstrates proficiency in C programming and data structures.",
+    technologies: ["C", "Data Structures", "File I/O", "CLI Development", "Algorithm Design"],
+    github: "https://github.com/DaL1ght1/E-cars",
     demo: null,
-    period: "Nov 2023 - Jan 2024",
-    image: "/Portfolio/Finance.jpg?height=400&width=600",
-    category: "Web Development",
+    period: "May 2023 - Jun 2023",
+    image: "/placeholder.jpg",
+    category: "Software Development",
+    featured: false,
   },
-
+  {
+    id: 10,
+    title: "Portfolio Website",
+    description: "Personal portfolio showcasing projects and skills",
+    longDescription: "Designed and developed a modern, responsive portfolio website using Next.js and React. Features include dark mode support, smooth animations, project showcases, and contact forms. Built with performance and accessibility in mind, utilizing Tailwind CSS for styling and shadcn/ui for components.",
+    technologies: ["Next.js", "React", "TypeScript", "Tailwind CSS", "shadcn/ui", "Responsive Design"],
+    github: "https://github.com/DaL1ght1/Portfolio",
+    demo: null,
+    period: "Ongoing",
+    image: "/placeholder.jpg",
+    category: "Web Development",
+    featured: false,
+  },
 ]
 
 export default function Projects() {
-  const [expandedProject, setExpandedProject] = useState<number | null>(null)
-  const [hoveredProject, setHoveredProject] = useState<number | null>(null)
+  const [selectedProject, setSelectedProject] = useState<typeof projects[0] | null>(null)
   const [filter, setFilter] = useState<string | null>(null)
+  const [hoveredId, setHoveredId] = useState<number | null>(null)
 
-  const toggleProject = (id: number) => {
-    setExpandedProject(expandedProject === id ? null : id)
-  }
-
-  const filteredProjects = filter ? projects.filter((project) => project.category === filter) : projects
-
-  const categories = Array.from(new Set(projects.map((project) => project.category)))
+  const filteredProjects = filter ? projects.filter((p) => p.category === filter) : projects
+  const categories = Array.from(new Set(projects.map((p) => p.category)))
 
   return (
-    <section id="projects" className="section-container bg-muted/50">
-      <h2 className="section-title">Projects</h2>
+    <section id="projects" className="section-container">
+      <h2 className="section-title">Featured Projects</h2>
 
-      <div className="flex flex-wrap justify-center gap-2 mb-8">
+      {/* Filter Buttons */}
+      <div className="flex flex-wrap justify-center gap-3 mb-12">
         <Button
           variant={filter === null ? "default" : "outline"}
           size="sm"
           onClick={() => setFilter(null)}
-          className="rounded-full"
+          className="rounded-full px-6"
         >
-          All
+          All Projects
         </Button>
         {categories.map((category) => (
           <Button
@@ -159,180 +175,164 @@ export default function Projects() {
             variant={filter === category ? "default" : "outline"}
             size="sm"
             onClick={() => setFilter(category)}
-            className="rounded-full"
+            className="rounded-full px-6"
           >
             {category}
           </Button>
         ))}
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-2">
-        {filteredProjects.map((project) => (
+      {/* Projects Grid */}
+      <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        {filteredProjects.map((project, index) => (
           <Card
             key={project.id}
             className={cn(
-              "flex flex-col h-full transition-all duration-300 relative group overflow-hidden border-2",
-              hoveredProject === project.id ? "border-primary shadow-lg scale-[1.02]" : "border-border",
+              "group cursor-pointer transition-all duration-500 hover:shadow-2xl overflow-hidden gradient-border",
+              hoveredId === project.id && "scale-105",
+              project.featured && "ring-2 ring-primary/50"
             )}
-            onMouseEnter={() => setHoveredProject(project.id)}
-            onMouseLeave={() => setHoveredProject(null)}
+            onMouseEnter={() => setHoveredId(project.id)}
+            onMouseLeave={() => setHoveredId(null)}
+            onClick={() => setSelectedProject(project)}
+            style={{
+              animationDelay: `${index * 0.1}s`,
+            }}
           >
-            {/* Project image (visible when not hovered) */}
-            <div className="relative h-48 overflow-hidden bg-muted">
+            {/* Project Image */}
+            <div className="relative h-48 overflow-hidden bg-gradient-to-br from-primary/20 to-purple-500/20">
               <Image
                 src={project.image || "/placeholder.svg"}
                 alt={project.title}
                 fill
                 className="object-cover transition-transform duration-500 group-hover:scale-110"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent"></div>
-              <div className="absolute bottom-4 left-4">
+              <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent" />
+              {project.featured && (
+                <div className="absolute top-4 right-4">
+                  <Badge className="bg-primary text-primary-foreground">Featured</Badge>
+                </div>
+              )}
+              <div className="absolute bottom-4 left-4 right-4">
                 <Badge variant="secondary" className="mb-2">
                   {project.category}
                 </Badge>
-                <h3 className="text-lg font-bold text-white drop-shadow-md">{project.title}</h3>
+                <h3 className="text-xl font-bold text-white drop-shadow-lg">{project.title}</h3>
               </div>
             </div>
 
-            <CardHeader>
-              <div className="flex justify-between items-start">
-                <CardTitle>{project.title}</CardTitle>
-                <span className="text-xs text-muted-foreground">{project.period}</span>
-              </div>
-              <CardDescription className="mt-2">
-                {expandedProject === project.id ? project.longDescription : project.description}
-              </CardDescription>
-            </CardHeader>
+            <CardContent className="p-6">
+              {project.company && (
+                <div className="flex items-center gap-2 text-sm text-primary mb-2">
+                  <Building2 className="h-4 w-4" />
+                  <span className="font-semibold">{project.company}</span>
+                </div>
+              )}
+              <p className="text-muted-foreground mb-4 line-clamp-2">{project.description}</p>
 
-            <CardContent className="flex-grow">
-              <div className="flex flex-wrap gap-2 mt-2">
-                {(expandedProject === project.id ? project.technologies : project.technologies.slice(0, 5)).map(
-                  (tech) => (
-                    <Badge key={tech} variant="secondary">
-                      {tech}
-                    </Badge>
-                  ),
-                )}
-                {expandedProject !== project.id && project.technologies.length > 5 && (
-                  <Badge
-                    variant="outline"
-                    className="cursor-pointer hover:bg-secondary"
-                    onClick={() => toggleProject(project.id)}
-                  >
-                    +{project.technologies.length - 5} more
+              <div className="flex flex-wrap gap-2 mb-4">
+                {project.technologies.slice(0, 3).map((tech) => (
+                  <Badge key={tech} variant="outline" className="text-xs">
+                    {tech}
+                  </Badge>
+                ))}
+                {project.technologies.length > 3 && (
+                  <Badge variant="outline" className="text-xs">
+                    +{project.technologies.length - 3}
                   </Badge>
                 )}
+              </div>
+
+              <div className="flex items-center justify-between text-sm text-muted-foreground">
+                <div className="flex items-center gap-1">
+                  <Calendar className="h-4 w-4" />
+                  <span>{project.period}</span>
+                </div>
+                <span className="text-primary font-semibold group-hover:underline">View Details →</span>
               </div>
             </CardContent>
-
-            <CardFooter className="flex justify-between items-center">
-              <div className="flex gap-2">
-                {project.github && (
-                  <Button asChild variant="outline" size="sm">
-                    <Link href={project.github} target="_blank" rel="noopener noreferrer">
-                      <Github className="mr-2 h-4 w-4" />
-                      GitHub
-                    </Link>
-                  </Button>
-                )}
-                {project.demo && (
-                  <Button asChild size="sm">
-                    <Link href={project.demo} target="_blank" rel="noopener noreferrer">
-                      <ExternalLink className="mr-2 h-4 w-4" />
-                      Live Demo
-                    </Link>
-                  </Button>
-                )}
-              </div>
-              <Button variant="ghost" size="sm" onClick={() => toggleProject(project.id)} className="ml-auto">
-                {expandedProject === project.id ? (
-                  <>
-                    <ChevronUp className="h-4 w-4 mr-1" />
-                    Less
-                  </>
-                ) : (
-                  <>
-                    <ChevronDown className="h-4 w-4 mr-1" />
-                    More
-                  </>
-                )}
-              </Button>
-            </CardFooter>
-
-            {/* Hover overlay with additional details for desktop */}
-            <div
-              className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-500 pointer-events-none md:pointer-events-auto hidden md:flex"
-              style={{
-                opacity: hoveredProject === project.id ? 1 : 0,
-                transform: hoveredProject === project.id ? "translateY(0)" : "translateY(10px)",
-              }}
-            >
-              <div className="absolute inset-0 bg-gradient-to-t from-primary/90 to-background/95 backdrop-blur-sm"></div>
-              <div className="relative z-10 p-6 flex flex-col justify-between h-full">
-                <div>
-                  <Badge variant="outline" className="bg-background/20 text-white mb-3">
-                    {project.category}
-                  </Badge>
-                  <h3 className="font-bold text-2xl mb-3 text-white">{project.title}</h3>
-                  <p className="mb-4 text-white/90 line-clamp-6">{project.longDescription}</p>
-                  <div className="flex flex-wrap gap-2 mt-4">
-                    {project.technologies.slice(0, 8).map((tech) => (
-                      <Badge key={tech} variant="secondary" className="bg-white/20 hover:bg-white/30 text-white">
-                        {tech}
-                      </Badge>
-                    ))}
-                    {project.technologies.length > 8 && (
-                      <Badge variant="secondary" className="bg-white/20 hover:bg-white/30 text-white">
-                        +{project.technologies.length - 8} more
-                      </Badge>
-                    )}
-                  </div>
-                </div>
-                <div className="flex gap-3 mt-4 pointer-events-auto">
-                  {project.github && (
-                    <Button
-                      asChild
-                      variant="secondary"
-                      size="sm"
-                      className="bg-white/20 hover:bg-white/30 text-white border-white/30"
-                    >
-                      <Link
-                        href={project.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center"
-                      >
-                        <Github className="mr-2 h-4 w-4" />
-                        View on GitHub
-                        <ArrowUpRight className="ml-1 h-3 w-3" />
-                      </Link>
-                    </Button>
-                  )}
-                  {project.demo && (
-                    <Button asChild size="sm" className="bg-white text-primary hover:bg-white/90">
-                      <Link href={project.demo} target="_blank" rel="noopener noreferrer" className="flex items-center">
-                        <ExternalLink className="mr-2 h-4 w-4" />
-                        Live Demo
-                        <ArrowUpRight className="ml-1 h-3 w-3" />
-                      </Link>
-                    </Button>
-                  )}
-                  {!project.github && !project.demo && (
-                    <Button
-                      variant="secondary"
-                      size="sm"
-                      className="bg-white/20 hover:bg-white/30 text-white border-white/30"
-                    >
-                      <Code className="mr-2 h-4 w-4" />
-                      Private Project
-                    </Button>
-                  )}
-                </div>
-              </div>
-            </div>
           </Card>
         ))}
       </div>
+
+      {/* Project Detail Modal */}
+      <Dialog open={!!selectedProject} onOpenChange={() => setSelectedProject(null)}>
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+          {selectedProject && (
+            <>
+              <DialogHeader>
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex-1">
+                    <DialogTitle className="text-3xl mb-2">{selectedProject.title}</DialogTitle>
+                    {selectedProject.company && (
+                      <div className="flex items-center gap-2 text-primary mb-2">
+                        <Building2 className="h-5 w-5" />
+                        <span className="font-semibold text-lg">{selectedProject.company}</span>
+                      </div>
+                    )}
+                    <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                      <div className="flex items-center gap-1">
+                        <Calendar className="h-4 w-4" />
+                        <span>{selectedProject.period}</span>
+                      </div>
+                      <Badge>{selectedProject.category}</Badge>
+                    </div>
+                  </div>
+                </div>
+              </DialogHeader>
+
+              <div className="space-y-6">
+                {/* Project Image */}
+                <div className="relative h-64 rounded-lg overflow-hidden bg-gradient-to-br from-primary/20 to-purple-500/20">
+                  <Image
+                    src={selectedProject.image || "/placeholder.svg"}
+                    alt={selectedProject.title}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+
+                {/* Description */}
+                <DialogDescription className="text-base leading-relaxed">
+                  {selectedProject.longDescription}
+                </DialogDescription>
+
+                {/* Technologies */}
+                <div>
+                  <h4 className="font-semibold text-lg mb-3">Technologies & Skills</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {selectedProject.technologies.map((tech) => (
+                      <Badge key={tech} variant="secondary" className="px-3 py-1">
+                        {tech}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Links */}
+                <div className="flex gap-3 pt-4">
+                  {selectedProject.github && (
+                    <Button asChild className="flex-1">
+                      <Link href={selectedProject.github} target="_blank" rel="noopener noreferrer">
+                        <Github className="mr-2 h-4 w-4" />
+                        View on GitHub
+                      </Link>
+                    </Button>
+                  )}
+                  {selectedProject.demo && (
+                    <Button asChild variant="outline" className="flex-1">
+                      <Link href={selectedProject.demo} target="_blank" rel="noopener noreferrer">
+                        <ExternalLink className="mr-2 h-4 w-4" />
+                        Live Demo
+                      </Link>
+                    </Button>
+                  )}
+                </div>
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </section>
   )
 }

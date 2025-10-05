@@ -1,108 +1,121 @@
-import type React from "react"
+"use client"
+
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Code, Globe, Server, Database, Braces, BookOpen } from "lucide-react"
+import { Code, Globe, Server, Database, Cloud, Cpu } from "lucide-react"
+import { useState } from "react"
+import { cn } from "@/lib/utils"
 
-// Define skill categories
-const skills = {
-  languages: ["Python", "Java", "C", "C++", "JavaScript", "TypeScript", "SQL", "Shell"],
-  frontend: ["HTML", "CSS", "React", "Angular", "Bootstrap", "Tailwind CSS"],
-  backend: ["Spring Boot","Java", "RESTful API"],
-  databases: ["PostgreSQL", "MySQL", "MongoDB"],
-  aiml: ["PyTorch", "TensorFlow", "Scikit-learn", "Pandas", "NumPy", "SHAP", "Lime", "Grad-Cam"],
-  tools: ["Git", "Github","Docker", "Kafka", "Jupyter Notebooks","Zipkin"],
-}
+const skillCategories = [
+  {
+    title: "Programming Languages",
+    icon: Code,
+    skills: ["C", "C++", "Java", "Python", "JavaScript", "TypeScript", "SQL", "PHP"],
+    color: "from-blue-500 to-cyan-500",
+    bgColor: "bg-blue-500/10",
+  },
+  {
+    title: "Web & Frontend",
+    icon: Globe,
+    skills: ["React", "Angular", "Next.js", "HTML", "CSS", "Tailwind CSS", "Bootstrap", "Responsive Design"],
+    color: "from-purple-500 to-pink-500",
+    bgColor: "bg-purple-500/10",
+  },
+  {
+    title: "Backend & APIs",
+    icon: Server,
+    skills: ["Spring Boot", "Node.js", "RESTful API", "GraphQL", "Apollo Federation", "Microservices"],
+    color: "from-green-500 to-emerald-500",
+    bgColor: "bg-green-500/10",
+  },
+  {
+    title: "DevOps & Infrastructure",
+    icon: Cloud,
+    skills: ["Git", "Docker", "Kubernetes", "GitHub Actions", "CI/CD", "Kafka", "Keycloak"],
+    color: "from-orange-500 to-red-500",
+    bgColor: "bg-orange-500/10",
+  },
+  {
+    title: "AI & Machine Learning",
+    icon: Cpu,
+    skills: ["PyTorch", "TensorFlow", "Optuna", "Albumentations", "SHAP", "LIME", "Grad-CAM", "NLP"],
+    color: "from-indigo-500 to-purple-500",
+    bgColor: "bg-indigo-500/10",
+  },
+  {
+    title: "Databases & Tools",
+    icon: Database,
+    skills: ["PostgreSQL", "MySQL", "MongoDB", "Elasticsearch", "Oracle Analytics", "Jupyter"],
+    color: "from-yellow-500 to-amber-500",
+    bgColor: "bg-yellow-500/10",
+  },
+]
 
 export default function SkillsSection() {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
+
   return (
-    <div className="space-y-8">
-      <h3 className="text-2xl font-semibold text-center">Technologies I've Worked With</h3>
+    <section id="skills" className="section-container bg-muted/30">
+      <h2 className="section-title">Technical Skills</h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <SkillCard
-          title="Programming Languages"
-          skills={skills.languages}
-          icon={<Code className="h-5 w-5" />}
-          color="bg-blue-100 dark:bg-blue-900/20"
-          textColor="text-blue-600 dark:text-blue-400"
-        />
+        {skillCategories.map((category, index) => {
+          const Icon = category.icon
+          return (
+            <Card
+              key={category.title}
+              className={cn(
+                "transition-all duration-500 hover:shadow-2xl cursor-default gradient-border overflow-hidden",
+                hoveredIndex === index && "scale-105 animate-glow"
+              )}
+              onMouseEnter={() => setHoveredIndex(index)}
+              onMouseLeave={() => setHoveredIndex(null)}
+              style={{
+                animationDelay: `${index * 0.1}s`,
+              }}
+            >
+              <div className={cn("h-2 bg-gradient-to-r", category.color)} />
+              <CardContent className="p-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className={cn("p-3 rounded-xl", category.bgColor)}>
+                    <Icon className="h-6 w-6" />
+                  </div>
+                  <h3 className="font-bold text-lg">{category.title}</h3>
+                </div>
 
-        <SkillCard
-          title="Frontend Development"
-          skills={skills.frontend}
-          icon={<Globe className="h-5 w-5" />}
-          color="bg-purple-100 dark:bg-purple-900/20"
-          textColor="text-purple-600 dark:text-purple-400"
-        />
+                <div className="flex flex-wrap gap-2">
+                  {category.skills.map((skill, skillIndex) => (
+                    <Badge
+                      key={skill}
+                      variant="secondary"
+                      className={cn(
+                        "transition-all duration-300",
+                        hoveredIndex === index && "scale-105 shadow-sm"
+                      )}
+                      style={{
+                        animationDelay: `${skillIndex * 0.05}s`,
+                      }}
+                    >
+                      {skill}
+                    </Badge>
+                  ))}
+                </div>
 
-        <SkillCard
-          title="Backend Development"
-          skills={skills.backend}
-          icon={<Server className="h-5 w-5" />}
-          color="bg-green-100 dark:bg-green-900/20"
-          textColor="text-green-600 dark:text-green-400"
-        />
-
-        <SkillCard
-          title="Databases"
-          skills={skills.databases}
-          icon={<Database className="h-5 w-5" />}
-          color="bg-yellow-100 dark:bg-yellow-900/20"
-          textColor="text-yellow-600 dark:text-yellow-400"
-        />
-
-        <SkillCard
-          title="AI & Machine Learning"
-          skills={skills.aiml}
-          icon={<Braces className="h-5 w-5" />}
-          color="bg-red-100 dark:bg-red-900/20"
-          textColor="text-red-600 dark:text-red-400"
-        />
-
-        <SkillCard
-          title="Tools & Technologies"
-          skills={skills.tools}
-          icon={<BookOpen className="h-5 w-5" />}
-          color="bg-indigo-100 dark:bg-indigo-900/20"
-          textColor="text-indigo-600 dark:text-indigo-400"
-        />
+                <div className="mt-4 text-sm text-muted-foreground">
+                  {category.skills.length} {category.skills.length === 1 ? "skill" : "skills"}
+                </div>
+              </CardContent>
+            </Card>
+          )
+        })}
       </div>
 
-      <p className="text-center text-muted-foreground mt-6">
-        I'm continuously learning and expanding my skills in software development, with a focus on AI and ML
-        technologies.
-      </p>
-    </div>
-  )
-}
-
-interface SkillCardProps {
-  title: string
-  skills: string[]
-  icon: React.ReactNode
-  color: string
-  textColor: string
-}
-
-function SkillCard({ title, skills, icon, color, textColor }: SkillCardProps) {
-  return (
-    <Card className="overflow-hidden border-t-4" style={{ borderTopColor: `var(--${textColor.split("-")[1]})` }}>
-      <CardContent className="p-6">
-        <div className="flex items-center gap-3 mb-4">
-          <div className={`p-2 rounded-md ${color}`}>
-            <span className={textColor}>{icon}</span>
-          </div>
-          <h4 className="font-medium text-lg">{title}</h4>
-        </div>
-
-        <div className="flex flex-wrap gap-2">
-          {skills.map((skill) => (
-            <Badge key={skill} variant="secondary" className="font-normal">
-              {skill}
-            </Badge>
-          ))}
-        </div>
-      </CardContent>
-    </Card>
+      <div className="mt-12 text-center">
+        <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+          Continuously expanding my technical expertise through hands-on projects, internships, and self-learning.
+          Passionate about staying current with emerging technologies and best practices in software development.
+        </p>
+      </div>
+    </section>
   )
 }
