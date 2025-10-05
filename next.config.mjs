@@ -11,9 +11,9 @@ const nextConfig = {
     unoptimized: true,
   },
   // GitHub Pages uses a subdirectory, so we need to set basePath
-  // Remove or comment out basePath if deploying to custom domain
-  basePath: process.env.NODE_ENV === 'production' ? '/Portfolio' : '',
-  assetPrefix: process.env.NODE_ENV === 'production' ? '/Portfolio' : '',
+  // Comment out these lines if deploying to custom domain or root
+  basePath: '/Portfolio',
+  assetPrefix: '/Portfolio',
 }
 
 export default nextConfig
