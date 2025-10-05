@@ -88,12 +88,6 @@ export default function Hero() {
                 <span className="sr-only">LinkedIn</span>
               </Link>
             </Button>
-            <Button asChild variant="ghost" size="icon" className="h-12 w-12 rounded-full hover:scale-110 hover:bg-primary/10 transition-all">
-              <Link href="mailto:khalil.krifi@ensi-uma.tn">
-                <Mail className="h-6 w-6" />
-                <span className="sr-only">Email</span>
-              </Link>
-            </Button>
           </div>
         </div>
       </div>
