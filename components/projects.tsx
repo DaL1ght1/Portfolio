@@ -51,7 +51,7 @@ const projects = [
     period: "Jul 2025 - Aug 2025",
     image: "/Portfolio/oas.jpg",
     category: "Business Intelligence",
-    featured: true,
+    featured: false,
   },
   {
     id: 4,
@@ -134,6 +134,19 @@ const projects = [
   },
   {
     id: 10,
+    title: "ML-Analytics",
+    description: "Comprehensive Machine Learning Analysis for Any Dataset",
+    longDescription: "A comprehensive, production-ready machine learning web application that works with ANY dataset for both classification and regression tasks. Originally built for student dropout prediction, now evolved into a universal ML platform with automatic problem detection, advanced model training, and full interpretability features.",
+    technologies: ["Jupiter Notebook", "python", "streamlit", "CSS"],
+    github: "https://github.com/DaL1ght1/ML-Analytics",
+    demo: null,
+    period: "October 2025",
+    image: "/Portfolio/ML.jpg",
+    category: "AI/ML",
+    featured: true,
+  },
+  {
+    id: 11,
     title: "Portfolio Website",
     description: "Personal portfolio showcasing projects and skills",
     longDescription: "Designed and developed a modern, responsive portfolio website using Next.js and React. Features include dark mode support, smooth animations, project showcases, and contact forms. Built with performance and accessibility in mind, utilizing Tailwind CSS for styling and shadcn/ui for components.",
