@@ -150,7 +150,7 @@ const projects = [
     title: "WikiTrends",
     description: "A production-ready streaming analytics system tracking trending Wikipedia pages in real-time",
     longDescription: "This project implements a Kappa Architecture streaming pipeline that processes live Wikipedia edit events from Wikimedia's event stream, computes real-time trending scores using windowed aggregations, and visualizes the results through interactive dashboards.",
-    technologies: ["Python", "Shell", "Dockerfile", "Graphana"],
+    technologies: ["Python", "Shell", "Dockerfile", "Grafana"],
     github: "https://github.com/DaL1ght1/wikiTrends",
     demo: null,
     period: "October 2025",
