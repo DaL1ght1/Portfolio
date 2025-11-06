@@ -145,8 +145,22 @@ const projects = [
     category: "AI/ML",
     featured: true,
   },
-  {
+    {
     id: 11,
+    title: "WikiTrends",
+    description: "A production-ready streaming analytics system tracking trending Wikipedia pages in real-time",
+    longDescription: "This project implements a Kappa Architecture streaming pipeline that processes live Wikipedia edit events from Wikimedia's event stream, computes real-time trending scores using windowed aggregations, and visualizes the results through interactive dashboards.",
+    technologies: ["Python", "Shell", "Dockerfile", "Graphana"],
+    github: "https://github.com/DaL1ght1/wikiTrends",
+    demo: null,
+    period: "October 2025",
+    image: "/Portfolio/wikiTrends.jpg",
+    category: "Tools & Utilities",
+    featured: true,
+  },
+  
+  {
+    id: 12,
     title: "Portfolio Website",
     description: "Personal portfolio showcasing projects and skills",
     longDescription: "Designed and developed a modern, responsive portfolio website using Next.js and React. Features include dark mode support, smooth animations, project showcases, and contact forms. Built with performance and accessibility in mind, utilizing Tailwind CSS for styling and shadcn/ui for components.",
