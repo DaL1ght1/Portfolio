@@ -32,7 +32,7 @@ const projects = [
     description: "AI-powered image forensics with explainable AI techniques",
     longDescription: "Developed an advanced image forensics system using deep learning models (MobileNetV3) optimized with Optuna for hyperparameter tuning. Implemented explainable AI techniques including SHAP, LIME, and Grad-CAM to provide interpretable results. The system uses Albumentations for data augmentation and is deployed as a full-stack web application with Spring Boot backend and Angular frontend, containerized with Docker.",
     technologies: ["Python", "PyTorch", "MobileNetV3", "Optuna", "Albumentations", "SHAP", "LIME", "Grad-CAM", "Spring Boot", "Angular", "Docker"],
-    github: "https://github.com/DaL1ght1/PCD-2025-40",
+    github: "https://github.com/DaL1ght1/Falsified-Image-Detection-System-FIDS",
     demo: null,
     period: "Feb 2025 - May 2025",
     image: "/Portfolio/FIDS.jpg",
