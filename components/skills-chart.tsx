@@ -25,36 +25,36 @@ import {
 const skillsData = {
   languages: [
     { name: "Java", proficiency: 95 },
-    { name: "Python", proficiency: 85 },
-    { name: "TypeScript", proficiency: 65 },
-    { name: "JavaScript", proficiency: 65 },
+    { name: "Python", proficiency: 75 },
+    { name: "TypeScript", proficiency: 45 },
+    { name: "JavaScript", proficiency: 35 },
     { name: "SQL", proficiency: 85 },
     { name: "C/C++", proficiency: 70 },
     { name: "Scala", proficiency: 90 },
   ],
 
   frontend: [
-    { name: "Angular", proficiency: 70 },
-    { name: "React", proficiency: 70 },
-    { name: "Next.js", proficiency: 70 },
+    { name: "Angular", proficiency: 65 },
+    { name: "React", proficiency: 55 },
+    { name: "Next.js", proficiency: 55 },
   ],
 
   backend: [
     { name: "Spring Boot", proficiency: 95 },
-    { name: "FastAPI", proficiency: 85 },
-    { name: "GraphQL", proficiency: 90 },
-    { name: "Microservices", proficiency: 95 },
+    { name: "FastAPI", proficiency: 75 },
+    { name: "GraphQL", proficiency: 78 },
+    { name: "Microservices", proficiency: 90 },
     { name: "WebSockets", proficiency: 80 },
   ],
 
   aiml: [
-    { name: "PyTorch", proficiency: 70 },
+    { name: "PyTorch", proficiency: 55 },
     { name: "LangGraph", proficiency: 90 },
-    { name: "Optuna", proficiency: 80 },
-    { name: "Albumentations", proficiency: 75 },
-    { name: "SHAP", proficiency: 70 },
-    { name: "LIME", proficiency: 70 },
-    { name: "Grad-CAM", proficiency: 70 },
+    { name: "Optuna", proficiency: 65 },
+    { name: "Albumentations", proficiency: 65 },
+    { name: "SHAP", proficiency: 59 },
+    { name: "LIME", proficiency: 59 },
+    { name: "Grad-CAM", proficiency: 59 },
   ],
 };
 
@@ -76,7 +76,7 @@ const radarData = [
   },
   {
     subject: "Frontend",
-    A: 70,
+    A: 50,
     fullMark: 100,
   },
   {
@@ -86,7 +86,7 @@ const radarData = [
   },
   {
     subject: "AI/ML",
-    A: 75,
+    A: 65,
     fullMark: 100,
   },
   {
