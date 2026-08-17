@@ -22,47 +22,44 @@ import {
   Radar,
 } from "recharts"
 
-// Define skill categories and proficiency levels
 const skillsData = {
   languages: [
-    { name: "Python", proficiency: 90 },
-    { name: "Java", proficiency: 85 },
-    { name: "C/C++", proficiency: 80 },
-    { name: "JavaScript", proficiency: 85 },
-    { name: "TypeScript", proficiency: 75 },
-    { name: "SQL", proficiency: 80 },
-
+    { name: "Java", proficiency: 95 },
+    { name: "Python", proficiency: 85 },
+    { name: "TypeScript", proficiency: 65 },
+    { name: "JavaScript", proficiency: 65 },
+    { name: "SQL", proficiency: 85 },
+    { name: "C/C++", proficiency: 70 },
+    { name: "Scala", proficiency: 90 },
   ],
+
   frontend: [
-    { name: "HTML", proficiency: 80 },
-    { name: "CSS", proficiency: 55 },
-    { name: "React", proficiency: 65 },
-    { name: "Angular", proficiency: 75 },
-    { name: "Bootstrap", proficiency: 60 },
-    { name: "Tailwind", proficiency: 60 },
+    { name: "Angular", proficiency: 70 },
+    { name: "React", proficiency: 70 },
+    { name: "Next.js", proficiency: 70 },
   ],
-  backend: [
-    { name: "Spring Boot", proficiency: 85 },
-    { name: "PostgreSQL", proficiency: 90 },
-    { name: "MongoDB", proficiency: 70 },
-    { name: "RESTful API", proficiency: 85 },
-  ],
-  aiml: [
-    { name: "PyTorch", proficiency: 80 },
-    { name: "TensorFlow", proficiency: 75 },
-    { name: "Scikit-learn", proficiency: 85 },
-    { name: "Pandas", proficiency: 90 },
-    { name: "NumPy", proficiency: 90 },
-    { name: "SHAP", proficiency: 60 },
-    { name: "Lime", proficiency: 60 },
-    { name: "Grad-Cam", proficiency: 60 },
-  ],
-}
 
-// Colors for the charts
+  backend: [
+    { name: "Spring Boot", proficiency: 95 },
+    { name: "FastAPI", proficiency: 85 },
+    { name: "GraphQL", proficiency: 90 },
+    { name: "Microservices", proficiency: 95 },
+    { name: "WebSockets", proficiency: 80 },
+  ],
+
+  aiml: [
+    { name: "PyTorch", proficiency: 70 },
+    { name: "LangGraph", proficiency: 90 },
+    { name: "Optuna", proficiency: 80 },
+    { name: "Albumentations", proficiency: 75 },
+    { name: "SHAP", proficiency: 70 },
+    { name: "LIME", proficiency: 70 },
+    { name: "Grad-CAM", proficiency: 70 },
+  ],
+};
+
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884D8", "#82CA9D", "#FFCC00", "#FF6666"]
 
-// Calculate the distribution of skills by category for the pie chart
 const skillDistribution = [
   { name: "Programming Languages", value: skillsData.languages.length },
   { name: "Frontend", value: skillsData.frontend.length },
@@ -70,7 +67,7 @@ const skillDistribution = [
   { name: "AI/ML", value: skillsData.aiml.length },
 ]
 
-// Prepare data for radar chart
+
 const radarData = [
   {
     subject: "Programming",
@@ -79,32 +76,31 @@ const radarData = [
   },
   {
     subject: "Frontend",
-    A: 85,
+    A: 70,
     fullMark: 100,
   },
   {
     subject: "Backend",
-    A: 80,
+    A: 95,
     fullMark: 100,
   },
   {
     subject: "AI/ML",
-    A: 85,
+    A: 75,
     fullMark: 100,
   },
   {
     subject: "Databases",
-    A: 80,
+    A: 90,
     fullMark: 100,
   },
   {
     subject: "DevOps",
-    A: 75,
+    A: 80,
     fullMark: 100,
   },
 ]
 
-// Custom tooltip component for the bar chart
 const CustomBarTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     return (
@@ -117,7 +113,6 @@ const CustomBarTooltip = ({ active, payload, label }: any) => {
   return null
 }
 
-// Custom tooltip component for the pie chart
 const CustomPieTooltip = ({ active, payload }: any) => {
   if (active && payload && payload.length) {
     return (
@@ -130,7 +125,6 @@ const CustomPieTooltip = ({ active, payload }: any) => {
   return null
 }
 
-// Custom label for pie chart
 const renderCustomizedLabel = ({ name, percent }: any) => {
   return `${name}: ${(percent * 100).toFixed(0)}%`
 }
@@ -138,7 +132,6 @@ const renderCustomizedLabel = ({ name, percent }: any) => {
 export default function SkillsChart() {
   const [activeCategory, setActiveCategory] = useState("languages")
 
-  // Get the data for the active category
   const activeData = skillsData[activeCategory as keyof typeof skillsData]
 
   return (

@@ -14,9 +14,13 @@ export default function About() {
 
       <div className="max-w-4xl mx-auto mb-16 text-center">
         <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-          I'm a passionate Software Engineering student at <span className="text-primary font-semibold">ENSI (National School of Computer Science)</span>,
-          specializing in AI/ML, Full-Stack Development, and DevOps. With hands-on experience in building scalable applications
-          and working with cutting-edge technologies, I'm eager to contribute to innovative projects and continue growing as a developer.
+          I'm a <span className="text-primary font-semibold">Backend Software Engineer</span> and
+          recent <span className="text-primary font-semibold">ENSI graduate</span>, focused on
+          building scalable backend systems, microservices, and distributed applications.
+          I have hands-on experience with technologies such as Java, Spring Boot, Python,
+          GraphQL, Kafka, and Kubernetes, while also working on AI-powered systems and
+          cloud-native architectures. I'm passionate about designing reliable systems,
+          solving complex problems, and continuously improving my engineering skills.
         </p>
       </div>
 
@@ -47,8 +51,7 @@ export default function About() {
                   <p className="text-sm text-muted-foreground">Sept 2023 – Jun 2026</p>
                 </div>
                 <p className="text-sm text-muted-foreground">
-                  Pursuing a comprehensive engineering degree with focus on software development,
-                  artificial intelligence, and modern computing technologies.
+                  Graduated with Highest Honors, earning a Diploma in Computer Science Engineering with a focus on software development, artificial intelligence, and modern computing technologies.
                 </p>
               </div>
 
@@ -84,7 +87,23 @@ export default function About() {
               <h3 className="font-bold text-2xl">Experience</h3>
             </div>
 
+
             <div className="space-y-6 max-h-[400px] overflow-y-auto pr-2">
+              {/* Graduation Internship */}
+              <div className="relative pl-6 border-l-2 border-primary/50">
+                <div className="absolute -left-[9px] top-2 w-4 h-4 rounded-full bg-primary animate-pulse" />
+                <div className="mb-2">
+                  <p className="font-bold text-lg">Software Engineer Intern</p>
+                  <p className="text-primary font-semibold">Cognira - Natural Language Query Interface for Logs & Metrics</p>
+                  <p className="text-sm text-muted-foreground">Feb 2026 – Jun 2026 | Tunis, Tunisia</p>
+                </div>
+                <ul className="text-sm space-y-1 text-muted-foreground list-disc list-inside">
+                  <li>Built event-driven 3-service platform converting NL to OpenSearch DSL & PromQL (Scala, Python, Next.js 14) over Kafka</li>
+                  <li>Engineered schema-aware LLM pipeline on self-hosted vLLM (Qwen2.5-Coder) with LangGraph self-correction loop</li>
+                  <li>Implemented semantic caching (Redis), DSL security guard whitelist, multi-tenant RBAC, and BFF auth proxy</li>
+                  <li>Deployed to Kubernetes via Kustomize & ArgoCD GitOps with Prometheus/Grafana observability</li>
+                </ul>
+              </div>
               {/* Fleet Management */}
               <div className="relative pl-6 border-l-2 border-primary/50">
                 <div className="absolute -left-[9px] top-2 w-4 h-4 rounded-full bg-primary animate-pulse" />
@@ -206,19 +225,19 @@ export default function About() {
             <ul className="space-y-3 text-muted-foreground">
               <li className="flex items-start gap-3">
                 <span className="text-primary text-xl">•</span>
-                <span>Developed AI-powered image forensics system with explainable AI</span>
+                <span>Architected schema-aware LLM pipeline with vLLM & LangGraph self-correction loop</span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="text-primary text-xl">•</span>
-                <span>Built production-ready microservices with Kubernetes & Docker</span>
+                <span>Engineered event-driven microservices with Pekko HTTP, Spring Cloud, FastAPI & Kafka</span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="text-primary text-xl">•</span>
-                <span>Delivered BI dashboards for financial institutions</span>
+                <span>Trained computer vision models to 94% accuracy with Optuna optimization & XAI (SHAP, Grad-CAM)</span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="text-primary text-xl">•</span>
-                <span>Contributed to multiple open-source projects on GitHub</span>
+                <span>Orchestrated GitOps deployments via Kubernetes, Kustomize & ArgoCD</span>
               </li>
             </ul>
           </CardContent>
