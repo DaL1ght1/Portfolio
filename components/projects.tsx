@@ -80,10 +80,37 @@ const projects = [
         period: "Jun 2024 - Aug 2024",
         image: "/ECM.jpg",
         category: "Web Development",
-        featured: true,
+        featured: false,
     },
     {
         id: 6,
+        title: "Etude.AI",
+        description: "An AI-powered learning assistant designed to streamline study workflows and content synthesis",
+        longDescription: "An intelligent platform that leverages artificial intelligence to assist students and professionals in analyzing, summarizing, and synthesizing complex educational materials for improved study efficiency.",
+        technologies: ["Spring Boot", "FastApi", "React", "Keycloak"],
+        github: "https://github.com/NadhemBenhadjali/Etude.AI",
+        demo: null,
+        period: "Dec 2025 - now",
+        image: "/etudeAI.jpg",
+        category: "AI & Machine Learning",
+        featured: true,
+    },
+    {
+        id: 7,
+        title: "URL Shortening Service",
+        description: "A high-performance RESTful URL shortener built with Go and PostgreSQL",
+        longDescription: "A backend service designed to create and manage shortened URLs efficiently. It features persistent storage using PostgreSQL, custom short-code generation, URL redirection, and full OpenAPI documentation managed via Swagger UI.",
+        technologies: ["Go", "PostgreSQL", "Swagger", "Docker"],
+        github: "https://github.com/DaL1ght1/URL-Shortening-Service",
+        demo: null,
+        period: "September 2026",
+        image: "/urlShortener.jpg",
+        category: "Tools & Utilities",
+        featured: true,
+    },
+
+    {
+        id: 8,
         title: "Rouli - Vehicle Rental Platform",
         description: "Full-stack vehicle rental web application",
         longDescription: "Developed a complete vehicle rental platform allowing users to browse, book, and manage rentals for cars, motorbikes, and scooters. Features include user authentication, vehicle inventory management, booking system, and admin dashboard. Built with a focus on user experience and responsive design.",
@@ -96,7 +123,7 @@ const projects = [
         featured: false,
     },
     {
-        id: 7,
+        id: 9,
         title: "Discord Profanity Banner",
         description: "Moderation bot for Tunisian Discord communities",
         longDescription: "Created a Discord moderation bot specifically designed to filter profanity and inappropriate content in Tunisian dialect. The bot uses natural language processing to detect and moderate content in real-time, helping maintain healthy community environments. Features automated warnings, user reporting, and customizable filter settings.",
@@ -109,7 +136,7 @@ const projects = [
         featured: false,
     },
     {
-        id: 8,
+        id: 10,
         title: "Compiler Project",
         description: "Educational compiler with lexical and syntax analysis",
         longDescription: "Developed a compiler for a simple programming language as part of academic coursework. Implemented all major compiler phases including lexical analysis, syntax analysis, semantic analysis, and code generation. The project demonstrates understanding of formal language theory, parsing algorithms, and compiler design principles.",
@@ -122,7 +149,7 @@ const projects = [
         featured: false,
     },
     {
-        id: 9,
+        id: 11,
         title: "Directory Content Collector",
         description: "Python utility for directory analysis and organization",
         longDescription: "Built a powerful Python utility tool for collecting, analyzing, and organizing directory contents. Features include recursive directory traversal, advanced filtering options, file type categorization, and multiple export formats. Particularly useful for developers analyzing project structures and generating documentation.",
@@ -135,7 +162,7 @@ const projects = [
         featured: false,
     },
     {
-        id: 10,
+        id: 12,
         title: "E-Cars Rental System",
         description: "Command-line car rental management application",
         longDescription: "Developed a CLI-based car rental management system in C. The application handles vehicle inventory, customer information, booking management, and rental history. Features include availability checking, pricing calculation, customer registration, and booking confirmation. Demonstrates proficiency in C programming and data structures.",
@@ -148,7 +175,7 @@ const projects = [
         featured: false,
     },
     {
-        id: 11,
+        id: 13,
         title: "ML-Analytics",
         description: "Comprehensive Machine Learning Analysis for Any Dataset",
         longDescription: "A comprehensive, production-ready machine learning web application that works with ANY dataset for both classification and regression tasks. Originally built for student dropout prediction, now evolved into a universal ML platform with automatic problem detection, advanced model training, and full interpretability features.",
@@ -158,10 +185,10 @@ const projects = [
         period: "October 2025",
         image: "/ML.jpg",
         category: "AI/ML",
-        featured: true,
+        featured: false,
     },
     {
-        id: 12,
+        id: 14,
         title: "WikiTrends",
         description: "A production-ready streaming analytics system tracking trending Wikipedia pages in real-time",
         longDescription: "This project implements a Kappa Architecture streaming pipeline that processes live Wikipedia edit events from Wikimedia's event stream, computes real-time trending scores using windowed aggregations, and visualizes the results through interactive dashboards.",
@@ -171,10 +198,10 @@ const projects = [
         period: "October 2025",
         image: "/wikiTrends.jpg",
         category: "Tools & Utilities",
-        featured: true,
+        featured: false,
     },
     {
-        id: 13,
+        id: 15,
         title: "Portfolio Website",
         description: "Personal portfolio showcasing projects and skills",
         longDescription: "Designed and developed a modern, responsive portfolio website using Next.js and React. Features include dark mode support, smooth animations, project showcases, and contact forms. Built with performance and accessibility in mind, utilizing Tailwind CSS for styling and shadcn/ui for components.",
@@ -196,18 +223,23 @@ export default function Projects() {
 
     const categories = Array.from(new Set(projects.map((p) => p.category)))
 
-    const filteredProjects = projects.filter((project) => {
-        const matchesCategory = filter ? project.category === filter : true
-        const query = searchQuery.toLowerCase().trim()
-        const matchesSearch =
-            !query ||
-            project.title.toLowerCase().includes(query) ||
-            project.description.toLowerCase().includes(query) ||
-            project.technologies.some((tech) => tech.toLowerCase().includes(query)) ||
-            (project.company && project.company.toLowerCase().includes(query))
+    const filteredProjects = projects
+        .filter((project) => {
+            const matchesCategory = filter ? project.category === filter : true
+            const query = searchQuery.toLowerCase().trim()
+            const matchesSearch =
+                !query ||
+                project.title.toLowerCase().includes(query) ||
+                project.description.toLowerCase().includes(query) ||
+                project.technologies.some((tech) => tech.toLowerCase().includes(query)) ||
+                (project.company && project.company.toLowerCase().includes(query))
 
-        return matchesCategory && matchesSearch
-    })
+            return matchesCategory && matchesSearch
+        })
+        .sort((a, b) => {
+            if (a.featured === b.featured) return 0
+            return a.featured ? -1 : 1
+        })
 
     return (
         <section id="projects" className="section-container">

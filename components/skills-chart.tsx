@@ -27,7 +27,7 @@ const skillsData = {
     { name: "Java", proficiency: 95 },
     { name: "Python", proficiency: 75 },
     { name: "TypeScript", proficiency: 45 },
-    { name: "JavaScript", proficiency: 35 },
+    { name: "Go", proficiency: 80 },
     { name: "SQL", proficiency: 85 },
     { name: "C/C++", proficiency: 70 },
     { name: "Scala", proficiency: 90 },
