@@ -1,44 +1,34 @@
 import { Github, Linkedin, Mail } from "lucide-react"
+import { profile } from "@/lib/data"
+
+const socials = [
+  { label: "GitHub", href: profile.github, icon: Github },
+  { label: "LinkedIn", href: profile.linkedin, icon: Linkedin },
+  { label: "Email", href: `mailto:${profile.email}`, icon: Mail },
+]
 
 export default function Footer() {
-  const currentYear = new Date().getFullYear()
-
   return (
-      <footer className="bg-muted py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="mb-4 md:mb-0">
-              <p className="text-sm text-muted-foreground">© {currentYear} Khalil Krifi. All rights reserved.</p>
-            </div>
-            <div className="flex space-x-4">
-              <a
-                  href="https://github.com/DaL1ght1"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-muted-foreground hover:text-primary transition-colors"
-              >
-                <span className="sr-only">GitHub</span>
-                <Github className="h-5 w-5" />
-              </a>
-              <a
-                  href="https://www.linkedin.com/in/khalil-krifi"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-muted-foreground hover:text-primary transition-colors"
-              >
-                <span className="sr-only">LinkedIn</span>
-                <Linkedin className="h-5 w-5" />
-              </a>
-              <a
-                  href="mailto:khalil.krifi@ensi-uma.tn"
-                  className="text-muted-foreground hover:text-primary transition-colors"
-              >
-                <span className="sr-only">Email</span>
-                <Mail className="h-5 w-5" />
-              </a>
-            </div>
-          </div>
+    <footer className="border-t">
+      <div className="container-page flex flex-col items-center justify-between gap-4 py-8 md:flex-row">
+        <p className="font-mono text-xs text-muted-foreground">
+          © {new Date().getFullYear()} {profile.name} · built with Next.js & Bun
+        </p>
+        <div className="flex items-center gap-5">
+          {socials.map(({ label, href, icon: Icon }) => (
+            <a
+              key={label}
+              href={href}
+              target={href.startsWith("http") ? "_blank" : undefined}
+              rel="noopener noreferrer"
+              className="text-muted-foreground transition-colors hover:text-primary"
+            >
+              <span className="sr-only">{label}</span>
+              <Icon className="size-4" />
+            </a>
+          ))}
         </div>
-      </footer>
+      </div>
+    </footer>
   )
 }

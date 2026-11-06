@@ -1,105 +1,117 @@
 "use client"
 
-import { ArrowDown, Github, Linkedin, Mail, MapPin, Phone, Sparkles } from "lucide-react"
-import { Button } from "@/components/ui/button"
 import { useEffect, useState } from "react"
+import { ArrowDown, Download, Github, Linkedin, MapPin } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import Terminal from "@/components/terminal"
+import { marquee, profile } from "@/lib/data"
+import { getImagePath } from "@/lib/utils"
 
-export default function Hero() {
-  const [mounted, setMounted] = useState(false)
+function RotatingFocus() {
+  const [index, setIndex] = useState(0)
 
   useEffect(() => {
-    setMounted(true)
+    const id = setInterval(() => setIndex((i) => (i + 1) % profile.focus.length), 2400)
+    return () => clearInterval(id)
   }, [])
 
   return (
-      <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-primary/5 via-background to-purple-500/5">
-        {/* Animated background elements */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl animate-float" />
-          <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
-          <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-pink-500/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '4s' }} />
-        </div>
+    <span key={index} className="animate-rise inline-block text-primary">
+      {profile.focus[index]}
+    </span>
+  )
+}
 
-        <div className="container px-4 mx-auto relative z-10">
-          <div className="max-w-5xl mx-auto text-center">
-            {/* Badge */}
-            <div className={`inline-flex items-center gap-2 px-6 py-3 rounded-full glass-effect mb-8 ${mounted ? 'animate-scale-in' : 'opacity-0'}`}>
-              <Sparkles className="h-5 w-5 text-primary animate-pulse" />
-              <span className="text-sm font-semibold">Available for On-site, Remote or Hybrid Opportunities</span>
-            </div>
-
-            {/* Name */}
-            <h1 className={`text-6xl md:text-8xl font-black mb-6 ${mounted ? 'animate-fade-in-up' : 'opacity-0'}`} style={{ animationDelay: '0.2s' }}>
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary via-purple-500 to-pink-500">
-              Khalil Krifi
+export default function Hero() {
+  return (
+    <section id="top" className="relative flex min-h-screen flex-col justify-center pt-28">
+      <div className="container-page grid items-center gap-12 lg:grid-cols-[1.1fr_1fr]">
+        <div>
+          <div className="animate-rise mb-8 inline-flex items-center gap-2 rounded-full border bg-card/60 px-4 py-1.5 text-sm backdrop-blur">
+            <span className="relative flex size-2">
+              <span className="absolute inline-flex size-full animate-ping rounded-full bg-primary opacity-75" />
+              <span className="relative inline-flex size-2 rounded-full bg-primary" />
             </span>
-            </h1>
+            {profile.availability}
+          </div>
 
-            {/* Title */}
-            <p className={`text-2xl md:text-3xl font-bold text-foreground/90 mb-4 ${mounted ? 'animate-fade-in-up' : 'opacity-0'}`} style={{ animationDelay: '0.4s' }}>
-              Software Engineer
-            </p>
+          <h1
+            className="animate-rise text-6xl font-bold leading-[0.95] tracking-tighter sm:text-7xl lg:text-8xl"
+            style={{ animationDelay: "80ms" }}
+          >
+            {profile.name.split(" ")[0]}
+            <br />
+            <span className="text-muted-foreground/60">{profile.name.split(" ").slice(1).join(" ")}.</span>
+          </h1>
 
-            {/* Subtitle */}
-            <p className={`text-lg md:text-xl text-muted-foreground mb-8 max-w-3xl mx-auto ${mounted ? 'animate-fade-in-up' : 'opacity-0'}`} style={{ animationDelay: '0.6s' }}>
-              Specializing in <span className="text-primary font-semibold">Full-Stack Development</span>, <span className="text-primary font-semibold">Agentic AI</span>, and <span className="text-primary font-semibold">DevOps</span>
-            </p>
+          <p className="animate-rise mt-8 text-xl font-medium sm:text-2xl" style={{ animationDelay: "160ms" }}>
+            {profile.role} building <RotatingFocus />
+          </p>
 
-            {/* Contact Info */}
-            <div className={`flex flex-wrap justify-center gap-4 mb-10 text-sm ${mounted ? 'animate-fade-in-up' : 'opacity-0'}`} style={{ animationDelay: '0.8s' }}>
-              <div className="flex items-center gap-2 px-4 py-2 rounded-full glass-effect">
-                <MapPin className="h-4 w-4 text-primary" />
-                <span>Boumhal, Ben Arous, Tunisia</span>
-              </div>
-              <div className="flex items-center gap-2 px-4 py-2 rounded-full glass-effect">
-                <Phone className="h-4 w-4 text-primary" />
-                <span>+216 28 042 451</span>
-              </div>
-            </div>
+          <p
+            className="animate-rise mt-5 max-w-xl text-pretty text-lg text-muted-foreground"
+            style={{ animationDelay: "240ms" }}
+          >
+            {profile.pitch}
+          </p>
 
-            {/* CTA Buttons */}
-            <div className={`flex flex-col sm:flex-row gap-4 justify-center mb-12 ${mounted ? 'animate-fade-in-up' : 'opacity-0'}`} style={{ animationDelay: '1s' }}>
-              <Button asChild size="lg" className="text-lg px-8 py-6 rounded-full group shadow-lg hover:shadow-xl transition-all">
-                <a href="#projects">
-                  View My Work
-                  <ArrowDown className="ml-2 h-5 w-5 group-hover:translate-y-1 transition-transform" />
-                </a>
-              </Button>
-              <Button asChild variant="outline" size="lg" className="text-lg px-8 py-6 rounded-full group shadow-lg hover:shadow-xl transition-all">
-                <a href="#contact">
-                  Get In Touch
-                  <Mail className="ml-2 h-5 w-5 group-hover:scale-110 transition-transform" />
-                </a>
-              </Button>
-            </div>
-
-            {/* Social Links */}
-            <div className={`flex gap-4 justify-center ${mounted ? 'animate-fade-in-up' : 'opacity-0'}`} style={{ animationDelay: '1.2s' }}>
-              <Button asChild variant="ghost" size="icon" className="h-12 w-12 rounded-full hover:scale-110 hover:bg-primary/10 transition-all">
-                <a href="https://github.com/DaL1ght1" target="_blank" rel="noopener noreferrer">
-                  <Github className="h-6 w-6" />
+          <div className="animate-rise mt-10 flex flex-wrap items-center gap-3" style={{ animationDelay: "320ms" }}>
+            <Button asChild size="lg" className="h-12 rounded-full px-7 text-base">
+              <a href="#projects">
+                View my work
+                <ArrowDown />
+              </a>
+            </Button>
+            <Button asChild size="lg" variant="outline" className="h-12 rounded-full bg-transparent px-7 text-base">
+              <a href={getImagePath("/resume.pdf")} target="_blank" rel="noopener noreferrer" download>
+                <Download />
+                Resume
+              </a>
+            </Button>
+            <div className="ml-1 flex items-center gap-1">
+              <Button asChild variant="ghost" size="icon" className="rounded-full">
+                <a href={profile.github} target="_blank" rel="noopener noreferrer">
+                  <Github />
                   <span className="sr-only">GitHub</span>
                 </a>
               </Button>
-              <Button asChild variant="ghost" size="icon" className="h-12 w-12 rounded-full hover:scale-110 hover:bg-primary/10 transition-all">
-                <a href="https://linkedin.com/in/khalil-krifi" target="_blank" rel="noopener noreferrer">
-                  <Linkedin className="h-6 w-6" />
+              <Button asChild variant="ghost" size="icon" className="rounded-full">
+                <a href={profile.linkedin} target="_blank" rel="noopener noreferrer">
+                  <Linkedin />
                   <span className="sr-only">LinkedIn</span>
                 </a>
               </Button>
             </div>
           </div>
+
+          <p
+            className="animate-rise mt-8 flex items-center gap-2 font-mono text-xs text-muted-foreground"
+            style={{ animationDelay: "400ms" }}
+          >
+            <MapPin className="size-3.5" />
+            {profile.location}
+          </p>
         </div>
 
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <Button asChild variant="ghost" size="icon" className="rounded-full h-14 w-14">
-            <a href="#about">
-              <ArrowDown className="h-6 w-6" />
-              <span className="sr-only">Scroll down</span>
-            </a>
-          </Button>
+        <div className="animate-rise" style={{ animationDelay: "300ms" }}>
+          <Terminal />
         </div>
       </div>
+
+      <div className="mt-20 overflow-hidden border-y bg-card/30 py-4 [mask-image:linear-gradient(to_right,transparent,#000_10%,#000_90%,transparent)]">
+        <div className="animate-marquee flex w-max">
+          {[0, 1].map((copy) => (
+            <ul key={copy} aria-hidden={copy === 1} className="flex shrink-0">
+              {marquee.map((tech) => (
+                <li key={tech} className="flex items-center gap-10 whitespace-nowrap pr-10 font-mono text-sm text-muted-foreground">
+                  {tech}
+                  <span className="text-primary">✦</span>
+                </li>
+              ))}
+            </ul>
+          ))}
+        </div>
+      </div>
+    </section>
   )
 }

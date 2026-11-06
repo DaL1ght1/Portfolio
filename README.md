@@ -2,7 +2,7 @@
 
 ![MIT License](https://img.shields.io/badge/License-MIT-green.svg)
 
-A personal portfolio website built with Next.js, TypeScript, and Tailwind CSS, showcasing projects, skills, and experience. This project features a clean, responsive design with dark/light mode support, powered by Shadcn/UI components.
+A personal portfolio website built with Next.js, TypeScript, and Tailwind CSS, showcasing projects, skills, and experience. It features a dark-first, terminal-inspired design, a command palette and scroll-driven animations, built and deployed with Bun.
 
 **Author:** Khalil Krifi
 
@@ -21,120 +21,73 @@ A personal portfolio website built with Next.js, TypeScript, and Tailwind CSS, s
 
 ## 📋 Overview
 
-This portfolio serves as a digital resume and a showcase of my work as a Software Engineering student. It includes sections for an introduction (Hero), about me, projects, resume download, and a contact form.
+This portfolio serves as a digital resume and a showcase of my work as a Software Engineer. It includes sections for an introduction (Hero), about me, projects, resume download, and a contact form.
 
 ## ✨ Features
 
-- **🖥️ Responsive Design:** Adapts to various screen sizes (mobile, tablet, desktop)
-- **🌓 Dark/Light Mode:** Theme switcher for user preference
-- **🧩 Interactive UI Components:** Built using Shadcn/UI and Radix UI primitives
-- **🚀 Hero Section:** Engaging introduction with call-to-action buttons
-- **👨‍💻 About Me Section:** Detailed information about skills, education, and experience
-- **🛠️ Projects Showcase:** Dynamically loaded projects with descriptions, technologies, GitHub links, and filtering by category
-- **🔧 Skills Display:**
-  - Categorized list of technologies
-- **📄 Resume Section:** Link to download CV and a summary of technical skills
-- **📬 Contact Form:** Functional contact form (front-end only in this version) and direct contact links
-- **✨ Smooth Animations:** Subtle animations for an enhanced user experience
-- **🧱 Reusable Components:** Modular components for easy maintenance and scalability
+- **🌑 Dark-first design** with a light theme toggle, grid backdrop and cursor-following spotlight cards
+- **⌨️ Command palette** (`Ctrl/⌘ + K`) for navigation, links, copying the email and switching theme — doubles as the mobile menu
+- **💻 Animated terminal hero** with a rotating focus line and a tech-stack marquee
+- **🧱 Bento About section**, experience timeline and categorized skills
+- **🛠️ Projects**: featured bento grid plus a searchable, filterable archive with detail dialogs
+- **📬 Contact form** via Formspree, plus resume download/preview
+- **🎞️ Scroll-driven animations** (CSS `animation-timeline`) with `prefers-reduced-motion` support
+- **📦 Single content file** — edit `lib/data.ts` to update everything
 
 ## 🛠️ Tech Stack
 
-- **Framework:** Next.js 15
+- **Runtime / package manager:** [Bun](https://bun.sh)
+- **Framework:** Next.js 15 (static export) + React 19
 - **Language:** TypeScript
-- **Styling:** Tailwind CSS
-- **UI Components:**
-  - Shadcn/UI
-  - Radix UI (Accordion, Dialog, DropdownMenu, Popover, Tabs, etc.)
-  - Lucide React (Icons)
-- **State Management/Forms:**
-  - React Hook Form
-  - Zod (Schema Validation)
-- **Data Visualization:** Recharts
-- **Theming:** Next-Themes
-- **Animations:** Tailwind CSS Animate, Framer Motion (implied by some Shadcn components)
-- **Carousel:** Embla Carousel React
-- **Notifications:** Sonner (Toasts)
-- **Utilities:** clsx, tailwind-merge
-- **Package Manager:** pnpm
+- **Styling:** Tailwind CSS, Space Grotesk & JetBrains Mono
+- **UI:** shadcn/ui primitives (Radix Dialog, cmdk), Lucide icons, Sonner toasts
+- **Theming:** next-themes
+- **Hosting:** GitHub Pages via GitHub Actions
 
 ## 📂 Project Structure
 
 ```
-D:\portfolio
-├── app/                  # Next.js App Router (pages, layout, global styles)
-├── components/           # UI components (reusable, Shadcn/UI, custom)
-│   ├── ui/               # Shadcn/UI base components
-│   └── *.tsx             # Custom page-level components (Hero, About, etc.)
-├── hooks/                # Custom React hooks (e.g., use-toast, use-mobile)
-├── lib/                  # Utility functions (e.g., cn for classnames)
-├── public/               # Static assets (images, resume.pdf)
-├── styles/               # Global styles (legacy, if any, mostly in app/globals.css)
-├── next.config.mjs       # Next.js configuration
-├── package.json          # Project metadata and dependencies
-├── pnpm-lock.yaml        # PNPM lock file
-├── tailwind.config.ts    # Tailwind CSS configuration
-├── components.json       # Shadcn/UI configuration
-└── tsconfig.json         # TypeScript configuration
+├── app/                  # App Router layout, page and global styles
+├── components/           # Page sections (hero, about, experience, skills, projects, contact…)
+│   └── ui/               # shadcn/ui primitives
+├── lib/
+│   ├── data.ts           # All portfolio content
+│   └── utils.ts          # cn() and basePath-aware asset helper
+├── public/               # Images and resume.pdf
+├── scripts/preview.ts    # Bun server that previews ./out under /Portfolio
+└── .github/workflows/    # GitHub Pages deployment (Bun)
 ```
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 
-- Node.js (v18 or later recommended)
-- pnpm (or npm/yarn, though `pnpm-lock.yaml` is provided)
+- [Bun](https://bun.sh) 1.3+
 
 ### Installation
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/DaL1ght1/Portfolio.git
-   cd Portfolio
-   ```
-
-2. Install dependencies using pnpm:
-   ```bash
-   pnpm install
-   ```
-
-### Running the Development Server
-
 ```bash
-pnpm dev
+git clone https://github.com/DaL1ght1/Portfolio.git
+cd Portfolio
+bun install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-### Building for Production
+### Development
 
 ```bash
-pnpm build
+bun dev
 ```
 
-This will create an optimized production build in the `.next` folder.
+Open [http://localhost:3000/Portfolio](http://localhost:3000/Portfolio).
 
-To run the production build locally:
+### Production build & preview
+
 ```bash
-pnpm start
+bun run build     # static export to ./out
+bun run start     # serves ./out at http://localhost:3000/Portfolio/
 ```
 
-## 🧩 Key Components Overview
-
-- **`Navbar`**: Responsive navigation bar with smooth scroll links and theme toggle
-- **`Hero`**: Full-screen hero section with an introductory message
-- **`About`**: Displays personal information, education, experience, and integrates `SkillsSection`
-- **`Projects`**: Fetches project data and displays them in cards with expand/collapse functionality and filtering
-- **`SkillsChart`**: Visualizes technical skills using Recharts
-- **`SkillsSection`**: Categorized display of technologies
-- **`Contact`**: Includes a contact form and various ways to get in touch
-- **`Resume`**: Provides a download link for the CV
-
-## ⚙️ Configuration
-
-- **Tailwind CSS (`tailwind.config.ts`)**: Defines theme colors, fonts, custom animations, and content paths
-- **Shadcn/UI (`components.json`)**: Configures Shadcn/UI style, component paths, and aliases
-- **Next.js (`next.config.mjs`)**: Standard Next.js configurations, including image optimization settings (currently unoptimized)
+Pushing to `main` builds with Bun and deploys to GitHub Pages automatically.
 
 ## 📝 License
 

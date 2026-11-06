@@ -1,446 +1,239 @@
 "use client"
 
-import { useState } from "react"
-import Image from "next/image"
-import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
+import { useMemo, useState } from "react"
+import { ArrowUpRight, Building2, Calendar, ExternalLink, Github, Search } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { ExternalLink, Github, Calendar, Building2, Search } from "lucide-react"
-import { cn, getImagePath } from "@/lib/utils"
+import SectionHeading from "@/components/section-heading"
+import SpotlightCard from "@/components/spotlight-card"
+import ProjectCover from "@/components/project-cover"
+import { projects, type Project } from "@/lib/data"
+import { cn } from "@/lib/utils"
 
-const projects = [
-    {
-        id: 1,
-        title: "Natural Language Query Interface for Logs & Metrics",
-        company: "Cognira",
-        description: "AI-powered platform for querying logs and metrics using natural language",
-        longDescription:
-            "Built an event-driven 3-service platform that translates natural language into OpenSearch DSL and PromQL queries. Developed a Scala backend with Tapir, Pekko HTTP, and jOOQ, a Python AI worker using FastAPI and LangGraph, and a Next.js 14 frontend, decoupled through Apache Kafka. Implemented a schema-aware LLM pipeline with a self-correction loop, semantic caching with Redis, DSL security validation, multi-tenant RBAC, TOTP MFA, encrypted API keys, and JWT-based authentication. Deployed the platform on Kubernetes using Kustomize and ArgoCD GitOps, with Prometheus and Grafana observability and load testing using Locust and K6.",
-        technologies:["Scala", "Python", "FastAPI", "LangGraph", "Next.js", "OpenSearch", "PromQL", "Apache Kafka", "Redis", "Kubernetes", "Kustomize", "ArgoCD", "Prometheus", "Grafana", "vLLM", "Qwen2.5-Coder"],
-        github: "https://github.com/DaL1ght1/nlq-platform-case-study",
-        demo: null,
-        period: "Feb 2026 - Jun 2026",
-        image: "/e2e-cache-hit.jpg",
-        category: "Agentic AI, Backend & Cloud",
-        featured: true,
-    },
-    {
-        id: 2,
-        title: "Fleet Management System",
-        company: "Omnilink",
-        description: "Scalable fleet management solution with microservices architecture",
-        longDescription: "Built a comprehensive fleet management system using modern cloud-native technologies. Implemented containerized services with Docker, deployed on Kubernetes cluster, and established robust CI/CD pipelines using GitHub Actions. The system features event-driven architecture with Kafka for real-time messaging and Keycloak for enterprise-grade SSO authentication.",
-        technologies: ["Docker", "Kubernetes", "GitHub Actions", "Kafka", "Keycloak", "GraphQL", "Apollo Federation", "Spring Boot", "Angular", "Microservices"],
-        github: "https://github.com/DaL1ght1/Fleet-Management",
-        demo: null,
-        period: "Jul 2025 - Sep 2025",
-        image: "/interactive-map-screenshot.jpg",
-        category: "DevOps & Cloud",
-        featured: true,
-    },
-    {
-        id: 3,
-        title: "Falsified Image Detection",
-        company: "Laval University",
-        description: "AI-powered image forensics with explainable AI techniques",
-        longDescription: "Developed an advanced image forensics system using deep learning models (MobileNetV3) optimized with Optuna for hyperparameter tuning. Implemented explainable AI techniques including SHAP, LIME, and Grad-CAM to provide interpretable results. The system uses Albumentations for data augmentation and is deployed as a full-stack web application with Spring Boot backend and Angular frontend, containerized with Docker.",
-        technologies: ["Python", "PyTorch", "MobileNetV3", "Optuna", "Albumentations", "SHAP", "LIME", "Grad-CAM", "Spring Boot", "Angular", "Docker"],
-        github: "https://github.com/DaL1ght1/Falsified-Image-Detection-System-FIDS",
-        demo: null,
-        period: "Feb 2025 - May 2025",
-        image: "/FIDS.jpg",
-        category: "AI/ML",
-        featured: true,
-    },
-    {
-        id: 4,
-        title: "Oracle Analytics Dashboards",
-        company: "BFI Group",
-        description: "Business intelligence dashboards for financial supervision",
-        longDescription: "Delivered comprehensive Oracle Analytics Server dashboards for a central bank client, focusing on financial supervision and regulatory compliance. Created bilingual (French/English) user and technical documentation. Validated complex financial formulas and ensured data confidentiality while maintaining usability of BI reports for stakeholders.",
-        technologies: ["Oracle Analytics Server", "BI", "Data Visualization", "Financial Analysis", "Documentation"],
-        github: null,
-        demo: null,
-        period: "Jul 2025 - Aug 2025",
-        image: "/oas.jpg",
-        category: "Business Intelligence",
-        featured: false,
-    },
-    {
-        id: 5,
-        title: "Enterprise Content Management",
-        company: "BFI Group",
-        description: "Full-featured ECM system with advanced search capabilities",
-        longDescription: "Implemented a comprehensive Enterprise Content Management web application using Spring Boot and Angular. Features include advanced document search and indexing powered by Elasticsearch, role-based access control for security, and PostgreSQL for reliable data storage. The system enables organizations to efficiently manage, search, and secure their digital content.",
-        technologies: ["Spring Boot", "Angular", "Elasticsearch", "PostgreSQL", "RESTful API", "JWT", "Role-Based Access Control"],
-        github: "https://github.com/DaL1ght1/ECM",
-        demo: null,
-        period: "Jun 2024 - Aug 2024",
-        image: "/ECM.jpg",
-        category: "Web Development",
-        featured: false,
-    },
-    {
-        id: 6,
-        title: "Etude.AI",
-        description: "An AI-powered learning assistant designed to streamline study workflows and content synthesis",
-        longDescription: "An intelligent platform that leverages artificial intelligence to assist students and professionals in analyzing, summarizing, and synthesizing complex educational materials for improved study efficiency.",
-        technologies: ["Spring Boot", "FastApi", "React", "Keycloak"],
-        github: "https://github.com/NadhemBenhadjali/Etude.AI",
-        demo: null,
-        period: "Dec 2025 - now",
-        image: "/etudeAI.jpg",
-        category: "AI & Machine Learning",
-        featured: true,
-    },
-    {
-        id: 7,
-        title: "URL Shortening Service",
-        description: "A high-performance RESTful URL shortener built with Go and PostgreSQL",
-        longDescription: "A backend service designed to create and manage shortened URLs efficiently. It features persistent storage using PostgreSQL, custom short-code generation, URL redirection, and full OpenAPI documentation managed via Swagger UI.",
-        technologies: ["Go", "PostgreSQL", "Swagger", "Docker"],
-        github: "https://github.com/DaL1ght1/URL-Shortening-Service",
-        demo: null,
-        period: "September 2026",
-        image: "/urlShortener.jpg",
-        category: "Tools & Utilities",
-        featured: true,
-    },
+function projectYear(period: string) {
+  if (/now|ongoing/i.test(period)) return "Now"
+  const years = period.match(/\d{4}/g)
+  return years ? years[years.length - 1] : ""
+}
 
-    {
-        id: 8,
-        title: "Rouli - Vehicle Rental Platform",
-        description: "Full-stack vehicle rental web application",
-        longDescription: "Developed a complete vehicle rental platform allowing users to browse, book, and manage rentals for cars, motorbikes, and scooters. Features include user authentication, vehicle inventory management, booking system, and admin dashboard. Built with a focus on user experience and responsive design.",
-        technologies: ["PHP", "JavaScript", "HTML", "CSS", "MySQL", "User Authentication", "Responsive Design"],
-        github: "https://github.com/DaL1ght1/Rouli",
-        demo: null,
-        period: "Jan 2024 - Mar 2024",
-        image: "/Rooli.jpg",
-        category: "Web Development",
-        featured: false,
-    },
-    {
-        id: 9,
-        title: "Discord Profanity Banner",
-        description: "Moderation bot for Tunisian Discord communities",
-        longDescription: "Created a Discord moderation bot specifically designed to filter profanity and inappropriate content in Tunisian dialect. The bot uses natural language processing to detect and moderate content in real-time, helping maintain healthy community environments. Features automated warnings, user reporting, and customizable filter settings.",
-        technologies: ["Python", "Discord.py", "NLP", "Bot Development", "API Integration", "Real-time Processing"],
-        github: "https://github.com/DaL1ght1/BadTN",
-        demo: null,
-        period: "Dec 2023 - Feb 2024",
-        image: "/Discord.jpg",
-        category: "Tools & Utilities",
-        featured: false,
-    },
-    {
-        id: 10,
-        title: "Compiler Project",
-        description: "Educational compiler with lexical and syntax analysis",
-        longDescription: "Developed a compiler for a simple programming language as part of academic coursework. Implemented all major compiler phases including lexical analysis, syntax analysis, semantic analysis, and code generation. The project demonstrates understanding of formal language theory, parsing algorithms, and compiler design principles.",
-        technologies: ["C", "Compiler Design", "Lexical Analysis", "Parsing", "Code Generation", "Data Structures"],
-        github: "https://github.com/DaL1ght1/CompilerProject",
-        demo: null,
-        period: "Sep 2023 - Dec 2023",
-        image: "/Compiler.jpg",
-        category: "Software Development",
-        featured: false,
-    },
-    {
-        id: 11,
-        title: "Directory Content Collector",
-        description: "Python utility for directory analysis and organization",
-        longDescription: "Built a powerful Python utility tool for collecting, analyzing, and organizing directory contents. Features include recursive directory traversal, advanced filtering options, file type categorization, and multiple export formats. Particularly useful for developers analyzing project structures and generating documentation.",
-        technologies: ["Python", "File System Operations", "CLI", "Data Processing", "Automation"],
-        github: "https://github.com/DaL1ght1/Directory-Content-Collector",
-        demo: null,
-        period: "Aug 2023 - Sep 2023",
-        image: "/DCC.jpg",
-        category: "Tools & Utilities",
-        featured: false,
-    },
-    {
-        id: 12,
-        title: "E-Cars Rental System",
-        description: "Command-line car rental management application",
-        longDescription: "Developed a CLI-based car rental management system in C. The application handles vehicle inventory, customer information, booking management, and rental history. Features include availability checking, pricing calculation, customer registration, and booking confirmation. Demonstrates proficiency in C programming and data structures.",
-        technologies: ["C", "Data Structures", "File I/O", "CLI Development", "Algorithm Design"],
-        github: "https://github.com/DaL1ght1/E-cars",
-        demo: null,
-        period: "May 2023 - Jun 2023",
-        image: "/Ecars.jpg",
-        category: "Software Development",
-        featured: false,
-    },
-    {
-        id: 13,
-        title: "ML-Analytics",
-        description: "Comprehensive Machine Learning Analysis for Any Dataset",
-        longDescription: "A comprehensive, production-ready machine learning web application that works with ANY dataset for both classification and regression tasks. Originally built for student dropout prediction, now evolved into a universal ML platform with automatic problem detection, advanced model training, and full interpretability features.",
-        technologies: ["Jupiter Notebook", "python", "streamlit", "CSS"],
-        github: "https://github.com/DaL1ght1/ML-Analytics",
-        demo: null,
-        period: "October 2025",
-        image: "/ML.jpg",
-        category: "AI/ML",
-        featured: false,
-    },
-    {
-        id: 14,
-        title: "WikiTrends",
-        description: "A production-ready streaming analytics system tracking trending Wikipedia pages in real-time",
-        longDescription: "This project implements a Kappa Architecture streaming pipeline that processes live Wikipedia edit events from Wikimedia's event stream, computes real-time trending scores using windowed aggregations, and visualizes the results through interactive dashboards.",
-        technologies: ["Python", "Shell", "Dockerfile", "Grafana"],
-        github: "https://github.com/DaL1ght1/wikiTrends",
-        demo: null,
-        period: "October 2025",
-        image: "/wikiTrends.jpg",
-        category: "Tools & Utilities",
-        featured: false,
-    },
-    {
-        id: 15,
-        title: "Portfolio Website",
-        description: "Personal portfolio showcasing projects and skills",
-        longDescription: "Designed and developed a modern, responsive portfolio website using Next.js and React. Features include dark mode support, smooth animations, project showcases, and contact forms. Built with performance and accessibility in mind, utilizing Tailwind CSS for styling and shadcn/ui for components.",
-        technologies: ["Next.js", "React", "TypeScript", "Tailwind CSS", "shadcn/ui", "Responsive Design"],
-        github: "https://github.com/DaL1ght1/Portfolio",
-        demo: null,
-        period: "Ongoing",
-        image: "/portfolio.jpg",
-        category: "Web Development",
-        featured: false,
-    },
-]
+function FeaturedCard({
+  project,
+  wide,
+  full,
+  onOpen,
+}: {
+  project: Project
+  wide: boolean
+  full: boolean
+  onOpen: () => void
+}) {
+  wide = wide || full
+  return (
+    <SpotlightCard className={cn("reveal group flex flex-col", wide && "md:col-span-2", full && "md:col-span-3")}>
+      <button onClick={onOpen} className="flex h-full flex-col text-left focus-visible:outline-none">
+        <div className={cn("relative overflow-hidden border-b", wide ? "h-56 md:h-72" : "h-48")}>
+          <ProjectCover
+            cover={project.cover}
+            className="h-full w-full transition-transform duration-700 group-hover:scale-105"
+          />
+          <span className="absolute left-4 top-4 rounded-full border bg-background/80 px-3 py-1 font-mono text-xs text-muted-foreground backdrop-blur">
+            {project.category}
+          </span>
+        </div>
+        <div className="flex flex-1 flex-col p-6">
+          <div className="flex items-start justify-between gap-4">
+            <h3 className="text-xl font-semibold leading-snug">{project.title}</h3>
+            <ArrowUpRight className="size-5 shrink-0 text-muted-foreground transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-primary" />
+          </div>
+          {project.company && <p className="mt-1 text-sm text-primary">{project.company}</p>}
+          <p className="mt-3 text-sm text-muted-foreground">{project.description}</p>
+          <div className="mt-auto flex flex-wrap gap-2 pt-5">
+            {project.technologies.slice(0, wide ? 6 : 4).map((tech) => (
+              <span key={tech} className="chip">
+                {tech}
+              </span>
+            ))}
+          </div>
+        </div>
+      </button>
+    </SpotlightCard>
+  )
+}
 
 export default function Projects() {
-    const [selectedProject, setSelectedProject] = useState<typeof projects[0] | null>(null)
-    const [filter, setFilter] = useState<string | null>(null)
-    const [searchQuery, setSearchQuery] = useState("")
-    const [hoveredId, setHoveredId] = useState<number | null>(null)
+  const [selected, setSelected] = useState<Project | null>(null)
+  const [filter, setFilter] = useState<string | null>(null)
+  const [query, setQuery] = useState("")
 
-    const categories = Array.from(new Set(projects.map((p) => p.category)))
+  const featured = projects.filter((p) => p.featured)
+  const categories = useMemo(() => Array.from(new Set(projects.map((p) => p.category))), [])
 
-    const filteredProjects = projects
-        .filter((project) => {
-            const matchesCategory = filter ? project.category === filter : true
-            const query = searchQuery.toLowerCase().trim()
-            const matchesSearch =
-                !query ||
-                project.title.toLowerCase().includes(query) ||
-                project.description.toLowerCase().includes(query) ||
-                project.technologies.some((tech) => tech.toLowerCase().includes(query)) ||
-                (project.company && project.company.toLowerCase().includes(query))
+  const archive = projects.filter((p) => {
+    const q = query.toLowerCase().trim()
+    const matchesCategory = !filter || p.category === filter
+    const matchesQuery =
+      !q ||
+      p.title.toLowerCase().includes(q) ||
+      p.description.toLowerCase().includes(q) ||
+      p.company?.toLowerCase().includes(q) ||
+      p.technologies.some((t) => t.toLowerCase().includes(q))
+    return matchesCategory && matchesQuery
+  })
 
-            return matchesCategory && matchesSearch
-        })
-        .sort((a, b) => {
-            if (a.featured === b.featured) return 0
-            return a.featured ? -1 : 1
-        })
+  return (
+    <section id="projects" className="container-page py-24 md:py-32">
+      <SectionHeading
+        index="04"
+        label="projects"
+        title="Selected work."
+        description="A few things I've built recently — click any project for the full story."
+      />
 
-    return (
-        <section id="projects" className="section-container">
-            <h2 className="section-title">Featured Projects</h2>
+      {/* Bento: two cards per row, the wide one alternating sides; an odd last card fills its row. */}
+      <div className="grid gap-4 md:grid-cols-3">
+        {featured.map((project, i) => (
+          <FeaturedCard
+            key={project.id}
+            project={project}
+            wide={i % 4 === 0 || i % 4 === 3}
+            full={i === featured.length - 1 && featured.length % 2 === 1}
+            onOpen={() => setSelected(project)}
+          />
+        ))}
+      </div>
 
-            {/* Search Bar */}
-            <div className="max-w-md mx-auto mb-8 relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input
-                    type="text"
-                    placeholder="Search by technology or keyword (e.g. Scala, Kafka, vLLM)..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="pl-10 pr-4 py-2 rounded-full border-muted-foreground/30 focus-visible:ring-primary"
-                />
+      <div className="reveal mt-24">
+        <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div>
+            <h3 className="text-2xl font-semibold">Archive</h3>
+            <p className="mt-1 text-sm text-muted-foreground">Everything, searchable by name or technology.</p>
+          </div>
+          <div className="relative w-full md:w-80">
+            <Search className="absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              type="search"
+              placeholder="Search — e.g. Scala, Kafka, vLLM"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              className="h-10 rounded-full bg-card/60 pl-10"
+              aria-label="Search projects"
+            />
+          </div>
+        </div>
+
+        <div className="mb-6 flex flex-wrap gap-2">
+          {[null, ...categories].map((category) => (
+            <button
+              key={category ?? "all"}
+              onClick={() => setFilter(category)}
+              className={cn(
+                "rounded-full border px-4 py-1.5 font-mono text-xs transition-colors",
+                filter === category
+                  ? "border-primary bg-primary text-primary-foreground"
+                  : "bg-card/60 text-muted-foreground hover:border-primary/50 hover:text-foreground"
+              )}
+            >
+              {category ?? "All"}
+            </button>
+          ))}
+        </div>
+
+        <div className="overflow-hidden rounded-2xl border bg-card/40">
+          {archive.length === 0 ? (
+            <div className="px-6 py-12 text-center text-muted-foreground">
+              <p>No projects match “{query}”.</p>
+              <Button
+                variant="link"
+                onClick={() => {
+                  setQuery("")
+                  setFilter(null)
+                }}
+              >
+                Clear search & filters
+              </Button>
             </div>
+          ) : (
+            <ul className="divide-y">
+              {archive.map((project) => (
+                <li key={project.id}>
+                  <button
+                    onClick={() => setSelected(project)}
+                    className="group grid w-full grid-cols-[3.5rem_1fr_auto] items-center gap-4 px-5 py-4 text-left transition-colors hover:bg-secondary/50 md:grid-cols-[4rem_1.4fr_1fr_1.4fr_auto] md:px-6"
+                  >
+                    <span className="font-mono text-xs text-muted-foreground">{projectYear(project.period)}</span>
+                    <span className="font-medium transition-colors group-hover:text-primary">{project.title}</span>
+                    <span className="hidden text-sm text-muted-foreground md:block">{project.company ?? "Personal"}</span>
+                    <span className="hidden truncate font-mono text-xs text-muted-foreground md:block">
+                      {project.technologies.slice(0, 4).join(" · ")}
+                    </span>
+                    <ArrowUpRight className="size-4 text-muted-foreground transition-colors group-hover:text-primary" />
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </div>
 
-            {/* Filter Buttons */}
-            <div className="flex flex-wrap justify-center gap-3 mb-12">
-                <Button
-                    variant={filter === null ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => setFilter(null)}
-                    className="rounded-full px-6"
-                >
-                    All Projects
-                </Button>
-                {categories.map((category) => (
-                    <Button
-                        key={category}
-                        variant={filter === category ? "default" : "outline"}
-                        size="sm"
-                        onClick={() => setFilter(category)}
-                        className="rounded-full px-6"
-                    >
-                        {category}
-                    </Button>
-                ))}
-            </div>
-
-            {/* Projects Grid */}
-            {filteredProjects.length === 0 ? (
-                <div className="text-center py-12 text-muted-foreground">
-                    <p className="text-lg">No projects found matching "{searchQuery}".</p>
-                    <Button variant="link" onClick={() => { setSearchQuery(""); setFilter(null); }}>
-                        Clear search & filters
-                    </Button>
-                </div>
-            ) : (
-                <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                    {filteredProjects.map((project, index) => (
-                        <Card
-                            key={project.id}
-                            className={cn(
-                                "group cursor-pointer transition-all duration-500 hover:shadow-2xl overflow-hidden gradient-border",
-                                hoveredId === project.id && "scale-105",
-                                project.featured && "ring-2 ring-primary/50"
-                            )}
-                            onMouseEnter={() => setHoveredId(project.id)}
-                            onMouseLeave={() => setHoveredId(null)}
-                            onClick={() => setSelectedProject(project)}
-                            style={{
-                                animationDelay: `${index * 0.1}s`,
-                            }}
-                        >
-                            {/* Project Image */}
-                            <div className="relative h-48 overflow-hidden bg-gradient-to-br from-primary/20 to-purple-500/20">
-                                <Image
-                                    src={getImagePath(project.image)}
-                                    alt={project.title}
-                                    fill
-                                    className="object-cover transition-transform duration-500 group-hover:scale-110"
-                                />
-                                {/* Dark overlay gradient for high contrast title text in both Light & Dark modes */}
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent" />
-                                {project.featured && (
-                                    <div className="absolute top-4 right-4">
-                                        <Badge className="bg-primary text-primary-foreground">Featured</Badge>
-                                    </div>
-                                )}
-                                <div className="absolute bottom-4 left-4 right-4">
-                                    <Badge variant="secondary" className="mb-2 bg-background/80 backdrop-blur-sm text-foreground">
-                                        {project.category}
-                                    </Badge>
-                                    <h3 className="text-xl font-bold text-white drop-shadow-md">{project.title}</h3>
-                                </div>
-                            </div>
-
-                            <CardContent className="p-6">
-                                {project.company && (
-                                    <div className="flex items-center gap-2 text-sm text-primary mb-2">
-                                        <Building2 className="h-4 w-4"/>
-                                        <span className="font-semibold">{project.company}</span>
-                                    </div>
-                                )}
-                                <p className="text-muted-foreground mb-4 line-clamp-2">{project.description}</p>
-
-                                <div className="flex flex-wrap gap-2 mb-4">
-                                    {project.technologies.slice(0, 3).map((tech) => (
-                                        <Badge key={tech} variant="outline" className="text-xs">
-                                            {tech}
-                                        </Badge>
-                                    ))}
-                                    {project.technologies.length > 3 && (
-                                        <Badge variant="outline" className="text-xs">
-                                            +{project.technologies.length - 3}
-                                        </Badge>
-                                    )}
-                                </div>
-
-                                <div className="flex items-center justify-between text-sm text-muted-foreground">
-                                    <div className="flex items-center gap-1">
-                                        <Calendar className="h-4 w-4"/>
-                                        <span>{project.period}</span>
-                                    </div>
-                                    <span className="text-primary font-semibold group-hover:underline">View Details →</span>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    ))}
-                </div>
-            )}
-
-            {/* Project Detail Modal */}
-            <Dialog open={!!selectedProject} onOpenChange={() => setSelectedProject(null)}>
-                <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-                    {selectedProject && (
-                        <>
-                            <DialogHeader>
-                                <div className="flex items-start justify-between gap-4">
-                                    <div className="flex-1">
-                                        <DialogTitle className="text-3xl mb-2">{selectedProject.title}</DialogTitle>
-                                        {selectedProject.company && (
-                                            <div className="flex items-center gap-2 text-primary mb-2">
-                                                <Building2 className="h-5 w-5"/>
-                                                <span className="font-semibold text-lg">{selectedProject.company}</span>
-                                            </div>
-                                        )}
-                                        <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                                            <div className="flex items-center gap-1">
-                                                <Calendar className="h-4 w-4"/>
-                                                <span>{selectedProject.period}</span>
-                                            </div>
-                                            <Badge>{selectedProject.category}</Badge>
-                                        </div>
-                                    </div>
-                                </div>
-                            </DialogHeader>
-
-                            <div className="space-y-6">
-                                {/* Project Image */}
-                                <div className="relative h-64 rounded-lg overflow-hidden bg-gradient-to-br from-primary/20 to-purple-500/20">
-                                    <Image
-                                        src={getImagePath(selectedProject.image)}
-                                        alt={selectedProject.title}
-                                        fill
-                                        className="object-cover"
-                                    />
-                                </div>
-
-                                {/* Description */}
-                                <DialogDescription className="text-base leading-relaxed">
-                                    {selectedProject.longDescription}
-                                </DialogDescription>
-
-                                {/* Technologies */}
-                                <div>
-                                    <h4 className="font-semibold text-lg mb-3">Technologies & Skills</h4>
-                                    <div className="flex flex-wrap gap-2">
-                                        {selectedProject.technologies.map((tech) => (
-                                            <Badge key={tech} variant="secondary" className="px-3 py-1">
-                                                {tech}
-                                            </Badge>
-                                        ))}
-                                    </div>
-                                </div>
-
-                                {/* Links */}
-                                <div className="flex gap-3 pt-4">
-                                    {selectedProject.github && (
-                                        <Button asChild className="flex-1">
-                                            <a href={selectedProject.github} target="_blank" rel="noopener noreferrer">
-                                                <Github className="mr-2 h-4 w-4"/>
-                                                View on GitHub
-                                            </a>
-                                        </Button>
-                                    )}
-                                    {selectedProject.demo && (
-                                        <Button asChild variant="outline" className="flex-1">
-                                            <a href={selectedProject.demo} target="_blank" rel="noopener noreferrer">
-                                                <ExternalLink className="mr-2 h-4 w-4"/>
-                                                Live Demo
-                                            </a>
-                                        </Button>
-                                    )}
-                                </div>
-                            </div>
-                        </>
+      <Dialog open={!!selected} onOpenChange={(open) => !open && setSelected(null)}>
+        <DialogContent className="max-h-[90vh] max-w-3xl overflow-y-auto rounded-2xl p-0">
+          {selected && (
+            <>
+              <ProjectCover cover={selected.cover} className="h-56 border-b sm:h-72" />
+              <div className="space-y-6 p-6 sm:p-8">
+                <DialogHeader className="space-y-3 text-left">
+                  <span className="font-mono text-xs text-primary">{selected.category}</span>
+                  <DialogTitle className="text-3xl font-bold leading-tight tracking-tight">{selected.title}</DialogTitle>
+                  <div className="flex flex-wrap gap-x-5 gap-y-2 text-sm text-muted-foreground">
+                    {selected.company && (
+                      <span className="flex items-center gap-1.5">
+                        <Building2 className="size-4" />
+                        {selected.company}
+                      </span>
                     )}
-                </DialogContent>
-            </Dialog>
-        </section>
-    )
+                    <span className="flex items-center gap-1.5">
+                      <Calendar className="size-4" />
+                      {selected.period}
+                    </span>
+                  </div>
+                </DialogHeader>
+
+                <DialogDescription className="text-base leading-relaxed">{selected.longDescription}</DialogDescription>
+
+                <div className="flex flex-wrap gap-2">
+                  {selected.technologies.map((tech) => (
+                    <span key={tech} className="chip">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+
+                {(selected.github || selected.demo) && (
+                  <div className="flex flex-wrap gap-3 pt-2">
+                    {selected.github && (
+                      <Button asChild className="rounded-full">
+                        <a href={selected.github} target="_blank" rel="noopener noreferrer">
+                          <Github />
+                          View source
+                        </a>
+                      </Button>
+                    )}
+                    {selected.demo && (
+                      <Button asChild variant="outline" className="rounded-full">
+                        <a href={selected.demo} target="_blank" rel="noopener noreferrer">
+                          <ExternalLink />
+                          Live demo
+                        </a>
+                      </Button>
+                    )}
+                  </div>
+                )}
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
+    </section>
+  )
 }

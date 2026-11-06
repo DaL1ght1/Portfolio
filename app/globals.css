@@ -4,187 +4,249 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 60 9% 98%;
+    --foreground: 240 10% 6%;
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 240 10% 6%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 262.1 83.3% 57.8%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 262.1 83.3% 57.8%;
-    --radius: 0.75rem;
+    --popover-foreground: 240 10% 6%;
+    --primary: 86 80% 28%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 60 5% 93%;
+    --secondary-foreground: 240 10% 10%;
+    --muted: 60 5% 93%;
+    --muted-foreground: 240 4% 40%;
+    --accent: 60 5% 91%;
+    --accent-foreground: 240 10% 10%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 240 6% 87%;
+    --input: 240 6% 85%;
+    --ring: 86 80% 28%;
+    --glow: 86 80% 40%;
+    --radius: 1rem;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 263.4 70% 50.4%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 263.4 70% 50.4%;
+    --background: 240 6% 4%;
+    --foreground: 0 0% 96%;
+    --card: 240 5% 7%;
+    --card-foreground: 0 0% 96%;
+    --popover: 240 5% 8%;
+    --popover-foreground: 0 0% 96%;
+    --primary: 78 92% 60%;
+    --primary-foreground: 240 6% 6%;
+    --secondary: 240 4% 12%;
+    --secondary-foreground: 0 0% 96%;
+    --muted: 240 4% 12%;
+    --muted-foreground: 240 5% 64%;
+    --accent: 240 4% 14%;
+    --accent-foreground: 0 0% 96%;
+    --destructive: 0 63% 45%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 4% 15%;
+    --input: 240 4% 18%;
+    --ring: 78 92% 60%;
+    --glow: 78 92% 60%;
   }
-}
 
-@layer base {
   * {
     @apply border-border;
   }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+  }
+
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
+  }
+
+  ::selection {
+    background: hsl(var(--primary) / 0.3);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
   }
 }
 
-.section-container {
-  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28;
-}
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+  }
 
-.section-title {
-  @apply text-4xl md:text-5xl font-bold mb-12 text-center bg-clip-text text-transparent bg-gradient-to-r from-primary via-purple-500 to-primary;
-}
-
-@keyframes fadeInUp {
-  from {
+  /* Card with a radial glow that follows the cursor (see SpotlightCard). */
+  .spotlight {
+    @apply relative overflow-hidden rounded-2xl border bg-card/60 backdrop-blur-sm transition-colors duration-300;
+  }
+  .spotlight::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
     opacity: 0;
-    transform: translateY(30px);
+    transition: opacity 300ms;
+    background: radial-gradient(
+      420px circle at var(--x, 50%) var(--y, 50%),
+      hsl(var(--glow) / 0.12),
+      transparent 40%
+    );
   }
-  to {
+  .spotlight:hover {
+    @apply border-primary/40;
+  }
+  .spotlight:hover::before {
     opacity: 1;
-    transform: translateY(0);
+  }
+
+  .chip {
+    @apply inline-flex items-center rounded-full border bg-secondary/60 px-3 py-1 font-mono text-xs text-secondary-foreground transition-colors;
+  }
+
+  /* Project cover artwork (ProjectCover). All sizes scale with the cover's own width. */
+  .cover {
+    @apply relative flex items-center justify-center overflow-hidden bg-card;
+    container-type: inline-size;
+  }
+  .cover-cmd {
+    font-size: 1.65cqw;
+  }
+  .cover-title {
+    margin-top: 2.2cqw;
+    font-size: min(6.5cqw, calc(150cqw / var(--len)));
+  }
+  .cover-tagline {
+    margin-top: 1.6cqw;
+    font-size: 1.9cqw;
+  }
+  .cover-flow {
+    display: flex;
+    gap: 1cqw;
+    margin-top: 4.5cqw;
+  }
+  .cover-arrow {
+    width: 3.6cqw;
+  }
+  .cover-node {
+    @apply rounded-[0.9cqw] border bg-background/70 text-center;
+    padding: 1cqw 1.6cqw;
+  }
+  .cover-node-name {
+    font-size: 1.5cqw;
+  }
+  .cover-node-sub {
+    margin-top: 0.3cqw;
+    font-size: 1.1cqw;
+  }
+  .cover-node-hot {
+    @apply border-primary/60 text-primary;
+  }
+  @container (max-width: 560px) {
+    /* Clear the category badge that sits in the card's top-left corner. */
+    .cover-body {
+      padding-top: 9cqw;
+    }
+    .cover-cmd {
+      font-size: 3.2cqw;
+    }
+    .cover-title {
+      font-size: min(12cqw, calc(160cqw / var(--len)));
+    }
+    .cover-tagline {
+      font-size: 3.8cqw;
+    }
+    .cover-flow {
+      display: none;
+    }
+  }
+
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, hsl(var(--foreground) / 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--foreground) / 0.05) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
   }
 }
 
-@keyframes slideInLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-50px);
-  }
+@keyframes marquee {
   to {
-    opacity: 1;
-    transform: translateX(0);
+    transform: translateX(-50%);
   }
 }
 
-@keyframes slideInRight {
-  from {
-    opacity: 0;
-    transform: translateX(50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes scaleIn {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0) rotate(0deg);
-  }
-  33% {
-    transform: translateY(-20px) rotate(5deg);
-  }
-  66% {
-    transform: translateY(-10px) rotate(-5deg);
-  }
-}
-
-@keyframes glow {
-  0%, 100% {
-    box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
-  }
+@keyframes blink {
   50% {
-    box-shadow: 0 0 40px rgba(139, 92, 246, 0.6);
+    opacity: 0;
   }
 }
 
-.animate-fade-in-up {
-  animation: fadeInUp 0.8s ease-out forwards;
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
 }
 
-.animate-slide-in-left {
-  animation: slideInLeft 0.8s ease-out forwards;
+.animate-marquee {
+  animation: marquee 40s linear infinite;
 }
 
-.animate-slide-in-right {
-  animation: slideInRight 0.8s ease-out forwards;
+.caret {
+  animation: blink 1s steps(1) infinite;
 }
 
-.animate-scale-in {
-  animation: scaleIn 0.6s ease-out forwards;
+.animate-rise {
+  animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
 }
 
-.animate-float {
-  animation: float 6s ease-in-out infinite;
+/* Scroll-driven effects are decorative: unsupported browsers just get static content. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports ((animation-timeline: view()) and (animation-range: entry)) {
+    @keyframes reveal {
+      from {
+        opacity: 0;
+        transform: translateY(32px);
+      }
+    }
+
+    .reveal {
+      animation: reveal linear backwards;
+      animation-timeline: view();
+      animation-range: entry 0% entry 60%;
+    }
+  }
+
+  @supports (animation-timeline: scroll()) {
+    @keyframes grow-progress {
+      from {
+        transform: scaleX(0);
+      }
+    }
+
+    .scroll-progress {
+      transform-origin: 0 50%;
+      animation: grow-progress linear;
+      animation-timeline: scroll(root);
+    }
+  }
 }
 
-.animate-glow {
-  animation: glow 2s ease-in-out infinite;
+@media not (prefers-reduced-motion: no-preference) {
+  .animate-marquee,
+  .caret,
+  .animate-rise {
+    animation: none;
+  }
 }
 
-.glass-effect {
-  @apply bg-background/60 backdrop-blur-xl border border-border/50;
-}
-
-.gradient-border {
-  position: relative;
-  background: linear-gradient(var(--background), var(--background)) padding-box,
-              linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.3)) border-box;
-  border: 2px solid transparent;
-}
-
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: hsl(var(--background));
-}
-
-::-webkit-scrollbar-thumb {
-  background: hsl(var(--primary) / 0.5);
-  border-radius: 5px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--primary));
-}
-
-/* Smooth scroll */
-html {
-  scroll-behavior: smooth;
+@supports not (animation-timeline: scroll()) {
+  .scroll-progress {
+    display: none;
+  }
 }
